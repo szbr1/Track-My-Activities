@@ -1,8 +1,16 @@
 import React from 'react'
+import Navbar from './components/Common/Navbar'
+import Hero from './components/Common/Hero'
+import Footer from './components/Common/Footer'
 
 function page() {
   return (
-    <div>page</div>
+    <div className=' w-full overflow-hidden'>
+    <Navbar />
+    <Hero />
+    <Footer />
+    </div>
+
   )
 }
 
