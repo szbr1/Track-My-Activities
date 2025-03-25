@@ -37,7 +37,7 @@ function Navbar() {
       
        {/* side buttons  */}
       <div className='text-xl flex gap-3'>
-      <FaLuggageCart onClick={()=> setCartOpen(!cartOpne)}/>
+      <FaLuggageCart className=' cursor-pointer hover:text-gray-300' onClick={()=> setCartOpen(!cartOpne)}/>
       <IoSearchOutline  className='cursor-pointer hover:text-gray-200'/>
       <AiOutlineAlignRight  onClick={()=> sethamburger(!hamburger)}className='cursor-pointer md:hidden block hover:text-gray-200'/>
 

@@ -11,9 +11,9 @@ function Banner() {
 
         <div className='bottom-1/4 text-2xl text-black font-bold  right-1/2 transform translate-x-1/2 absolute flex justify-center items-center flex-col'>
             
-            <h1 className='md:text-5xl'>B<span className='text-orange-700'>oo</span>k O<span className='border-b-2 border-black'>rder</span>.</h1>
+            <h1 className='md:text-5xl'>B<span className='text-orange-700'>oo</span>k O<span className='border-b-2 border-orange-700'>rder</span><span className='text-orange-700'>.</span></h1>
             <br className='hidden md:block'/>
-            <button className='bg-black text-gray-200 px-6 py-1 hover:bg-gray-900 rounded-md text-center text-sm uppercase border shadow-2xl'>Trust Us.</button>
+            <button className='bg-orange-700 text-gray-200 px-6 py-1 hover:bg-gray-900 rounded-md text-center text-sm uppercase border shadow-2xl'>Trust Us.</button>
         </div>
         </div>
         {/* collection  */}

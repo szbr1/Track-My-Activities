@@ -42,7 +42,7 @@ function Scroller() {
     {
       products.map(product => {
         return(
-            <div className='h-full w-full md:w-1/2 lg:w-64 flex-shrink-0' key={product.id}>
+            <div className='h-full w-full mx-2 rounded-md md:w-1/2 lg:w-64 flex-shrink-0 overflow-hidden' key={product.id}>
 
             <img src={product.url} className='object-cover h-full w-full' alt="" />
             </div>
