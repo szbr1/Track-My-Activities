@@ -26,16 +26,7 @@ function Banner() {
          Early Learning
          </h1>
          <span className='text-sm text-gray-600 text-center'>Meet Our Certified & Passionate Childcare Professionals</span>
-        <div className='absolute right-8 flex -bottom-8 gap-4'>
-            <div className='p-2 bg-slate-500 rounded-lg text-xl '>
-
-            <TiChevronLeftOutline  className=''/>
-            </div>
-            <div className='p-2 bg-slate-500 rounded-lg text-xl '>
-
-            <TiChevronRightOutline className='' />
-            </div>
-        </div>
+       
         </div>
     </div>
   )
