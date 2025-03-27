@@ -1,4 +1,5 @@
-import React from "react";
+'use client'
+import React, { useEffect, useState } from "react";
 
 const selectedProduct = {
   name: "Stylish Jacket",
@@ -24,7 +25,15 @@ const selectedProduct = {
     },
   ],
 };
+
 function ProductsDetails() {
+    const [mainImage , setMainImage] = useState("")
+
+    useEffect(()=>{
+        if(selectedProduct.images?.length > 0){
+           setMainImage(selectedProduct.images[0].url)
+        }
+    },[setMainImage])
   return (
     <div className="p-6">
       <div className=" bg-white p-8 rounded-lg">
@@ -34,6 +43,7 @@ function ProductsDetails() {
             {selectedProduct.images.map((image, index) => {
               return (
                 <img
+                onClick={()=> setMainImage(image.url)}
                   src={image.url}
                   alt="nothing"
                   className="w-20 h-20 object-cover rounded-lg cursor-pointer border"
@@ -47,7 +57,7 @@ function ProductsDetails() {
           <div className="md:w-1/2">
             <div className="mb-4">
               <img
-                src={selectedProduct.images[0]?.url}
+                src={mainImage}
                 alt=""
                 className="w-full h-auto object-cover rounded-lg"
               />
@@ -62,11 +72,16 @@ function ProductsDetails() {
                 <img
                   src={images.url}
                   alt=""
+                  onClick={()=> setMainImage(images.url)}
                   className="w-20 h-20 object-cover rounded-lg cursor-pointer border"
                 />
               );
             })}
           </div>
+
+
+     {/* --------------------- */}
+
 
           {/* Right Slide  */}
           <div className="p-4 md:w-1/2">
@@ -134,7 +149,14 @@ function ProductsDetails() {
         </div>
 
     {/* Add to Cart Button  */}
-      <button className="w-full cursor-pointer md:w-8/12 py-2 bg-black text-white uppercase mt-6">add to cart</button>
+      <button className="w-full ml-4 cursor-pointer md:w-8/12 py-2 bg-black text-white uppercase mt-6">add to cart</button>
+<br />
+    {/* Charactricstcs  */}
+    <h5 className="ml-4 mt-6 font-semibold text-xl">Charactricstcs:</h5>
+    <div className="ml-4 w-7/10 mt-3 lg:w-3/8 md:3/6 flex justify-between">
+      <div>Brand <br /> Material</div>
+      <div>{selectedProduct.brand} <br /> {selectedProduct.material}</div>
+    </div>
         
           </div>
         </div>

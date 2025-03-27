@@ -141,12 +141,12 @@ function Scroller() {
         onMouseUp={hanldeMouseUp}
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseDragg}
-        className="container  relative mx-auto overflow-x-scroll scrollbar-none h-64-900 gap-3 flex "
+        className="container  relative mx-auto overflow-x-scroll scrollbar-hidden h-64-900 gap-3 flex "
       >
         {products.map((product) => {
           return (
             <div
-              className="mt-8 h-full w-full px-2  md:w-1/2 lg:w-64 flex-shrink-0 overflow-hidden rounded-lg relative"
+              className="mt-8 h-full w-full px-2  md:w-1/2 lg:w-2/8 flex-shrink-0 overflow-hidden rounded-lg relative"
               key={product.id}
             >
               <img
