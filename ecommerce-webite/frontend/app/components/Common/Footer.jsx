@@ -10,6 +10,10 @@ function Footer() {
         <span className=''>
             Lorem ipsum dolor sit amet consectetu, delectus aperiam recusandae.
         </span>
+        <br />
+        <br />
+
+        <span className='mt-4'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
         <div className='flex mt-3'>
 
         <input type="text" placeholder='enter email' className='placeholder:text-white bg-black text-white py-2  px-3 rounded-l-lg' />
@@ -30,7 +34,7 @@ function Footer() {
       {/* third links  */}
        
       <div className='flex flex-col'>
-        <h1 className='text-xl  mb-8 font-medium'>Website Links</h1>
+        <h1 className='text-xl  mb-8 font-medium'>Support</h1>
         <span className='ml-6 hover:underline cursor-pointer'>About</span>
         <span className='ml-6 hover:underline cursor-pointer'>Profile</span>
         <span className='ml-6 hover:underline cursor-pointer'>Home</span>

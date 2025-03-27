@@ -26,7 +26,9 @@ function Navbar() {
     <main className='  container mx-auto flex justify-between items-center p-3'>
 
         {/* logo  */}
-      <div className='text-2xl font-bold uppercase text-red-600'>Reb<span className='text-black'>bit.</span></div>
+      <Link 
+       href={"/"}
+       className=' cursor-pointer text-2xl font-bold uppercase text-red-600'>Reb<span className='text-black'>bit.</span></Link>
       {/* main  */} 
      <div  className='hidden uppercase md:flex gap-4 text-sm '>
         <Link className='cursor-pointer hover:text-gray-400 hover:underline' href={'/'}>Top wear</Link>
