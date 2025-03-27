@@ -141,7 +141,7 @@ function Scroller() {
         onMouseUp={hanldeMouseUp}
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseDragg}
-        className="container  relative mx-auto overflow-x-scroll h-64-900 gap-3 flex "
+        className="container  relative mx-auto overflow-x-scroll scrollbar-none h-64-900 gap-3 flex "
       >
         {products.map((product) => {
           return (
