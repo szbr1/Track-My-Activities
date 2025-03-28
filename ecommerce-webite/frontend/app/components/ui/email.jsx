@@ -7,7 +7,8 @@ export function Email({setemail , email}) {
   <input type="email"
   value={email}
   onChange={(e) => setemail(e.target.value)}
-  className="px-4"
+  className="px-4 bg-white placeholder:text-gray-400 text-black border border-gray-200"
+  
    placeholder="mail@site.com" required/>
 </label>
 

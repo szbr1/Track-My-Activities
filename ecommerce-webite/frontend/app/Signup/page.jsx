@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { Email, InputWithLabel } from "../components/ui/email";
 import Password from "../components/ui/passwond";
 import Username from "../components/ui/Username";
+import Link from "next/link";
 
 function page() {
     // states declared 
@@ -31,8 +32,9 @@ function page() {
   return (
     <div className="h-screen w-full flex just ">
       {/* login sement  */}
-      <div className="h-full w-full  flex justify-center items-center">
-        <div className="w-3/4 h-3/6 flex justify-center items-center flex-col  rounded-2xl border border-blue-900 ">
+      <div className="h-full w-full  flex justify-center items-center p-3
+      ">
+        <div className="w-full md:w-3/5   h-3/6 flex justify-center items-center flex-col  rounded-2xl border-2 p-2 border-gray-200 ">
           <h1 className="text-4xl text-center uppercase mt-3 font-bold text-black mb-3  ">
             SignUp
           </h1>
@@ -43,10 +45,15 @@ function page() {
             <Email email={email} setemail={setemail} />
             {/* password  */}
             <Password password={password} setPassword={setPassword} />
+
+            {/* heading  */}
+            <h1 className="text-center text-black">
+                Already have account? <Link href={'/Login'} className="text-blue-600 underline">Login</Link>
+            </h1>
             {/* submit button  */}
             <button
             type="submit"
-              className="px-3 w-full  py-2 bg-black text-white rounded-md"
+              className=" cursor-pointer px-3 w-full  py-2 bg-black text-white rounded-md"
             >
               Submit
             </button>

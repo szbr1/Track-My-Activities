@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import { Email, InputWithLabel } from '../components/ui/email'
 import Password from '../components/ui/passwond'
+import Link from 'next/link'
 
 function page() {
     const [email, setemail] = useState('')
@@ -25,8 +26,8 @@ function page() {
   return (
     <div className='h-screen w-full flex just '>
         {/* login sement  */}
-        <div className='h-full w-full  flex justify-center items-center'>
-          <div className='w-3/4 h-3/6 flex justify-center items-center flex-col  rounded-2xl border border-blue-900 '>
+        <div className='h-full w-full  flex justify-center items-center p-3'>
+        <div className="w-full md:w-3/5   h-3/6 flex justify-center items-center flex-col  rounded-2xl border-2 p-2 border-gray-200 ">
            <h1 className='text-4xl text-center uppercase mt-3 font-bold text-black mb-3  '>Login </h1>
            <form onSubmit={handleSubmit} className='gap-3 flex flex-col'>
            {/* email  */}
@@ -35,8 +36,12 @@ function page() {
           <Email email={email} setemail={setemail}/>
           {/* password  */}
           <Password password={password} setPassword={setPassword}/>
+          {/* heading  */}
+          <h1 className='text-black text-center'>
+                Don't have account? <Link href={'/Signup'} className="text-blue-600 underline">Register</Link>
+            </h1>
           {/* submit button  */}
-          <button onClick={()=> handleSubmit} className='px-3 w-full  py-2 bg-black text-white rounded-md'>Submit</button>
+          <button onClick={()=> handleSubmit} className='px-3 w-full  py-2 bg-black text-white rounded-md cursor-pointer'>Submit</button>
 
            </form>
           </div>
