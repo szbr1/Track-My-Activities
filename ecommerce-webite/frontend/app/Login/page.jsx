@@ -21,6 +21,8 @@ function page() {
       if(password && email){
         toast.success("Loading...")
       }
+      const data = {email: email, password: password}
+      console.log(data)
    }
    
   return (
