@@ -8,13 +8,13 @@ function MyOrders() {
         setTimeout(()=>{
             const mockOrders = [
                 {
-                    _id: '12345',
-                    creatdAt: new Date(),
-                    shippingAddress: {city: "New York", country: "USA"},
+                    _id: '123455',
+                    createdAt: new Date(),
+                    shippingAddress: { city: "New York", country: "USA" },
                     ordersItems: [
                         {
                             name: "Product 1",
-                            image: "https://picsum.photos/500/500?random=88",
+                            image: "https://picsum.photos/500/500?random=99",
                         },
                     ],
                     totalPrice: 100,
@@ -108,8 +108,8 @@ function MyOrders() {
     }, [])
   return (
     <div>
-        <div className='max-w-7xl mx-auto p-4 sm:p-6'>
-            <h2 className='text-xl sm:text-2xl font-bold mb-6'>
+        <div className='w-full mx-auto p-4 sm:p-6'>
+            <h2 className=' font-bold mb-6'>
             <div className='relative shadow-md sm:rounded-lg overflow-hidden'>
                 <table>
 
@@ -127,20 +127,40 @@ function MyOrders() {
                  {Orders.length > 0 ? (
                     Orders.map((order)=> (
                             <tr key={order._id} className='border-b hover:border-gray-50 cursor-pointer'>
+
+                        
+                                
                             <td className='py-2 px-2 sm:py-4 sm:px-4'>
                             <img src={order.ordersItems[0].image}
                             className='w-10 h-10 sm:w-12 object-cover rounded-lg'
                              alt="" />
                             </td>
-
+                            <td className='py-2 px-2 sm:py-4 sm:px-4'>
+                        {order._id}
+                     </td>
                             <td className='py-2 px-2 sm:py-4 sm:px-4'>
                             {new Date(order.createdAt).toLocaleDateString()} {""}
                             {new Date(order.createdAt).toLocaleTimeString()}
                             </td>
-                     <td  className='py-2 px-2 sm:py-4 sm:px-4' >
-                    {order.shippingAddress.city}, {order.shippingAddress.countrys}
+                     <td  className='py-2 px-2  inline-block whitespace-nowrap sm:py-4 sm:px-4' >
+                        {order.shippingAddress ? `${order.shippingAddress.city}, ${order.shippingAddress.countrys}`: "N/A"}
+                  
+                     </td>
+
+                     <td className='py-2 px-2 sm:py-4 sm:px-4'>
+                       {order.ordersItems.length}
                      </td>
                             
+                     <td className='py-2 px-2 sm:py-4 sm:px-4'>
+                      {order.totalPrice}
+                     </td>
+
+                     <td className='py-2 px-4 sm:py-4 sm:px-4'>
+                      <span className={`${order.isPaid ? 'bg-green-100 text-green-800': 'bg-red-100 text-red-800'} px-3 py-1 rounded-md `}>
+                        {order.isPaid ? 'Paid': 'Pending'}
+                        </span> 
+                     </td>
+
                         </tr>
                     ))
                  ): ""}

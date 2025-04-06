@@ -78,7 +78,6 @@ const placeholderProducts = [
 
   return (
     <div className=' w-full overflow-hidden min-h-screen'>
-    <Navbar />
     <Hero />
     <ProductsDetails />
     <div className='container mx-auto px-6'> 
