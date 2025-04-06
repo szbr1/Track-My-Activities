@@ -33,8 +33,8 @@ function page() {
     },)
   return (
     <div className='py-2 min-h-screen relative'> 
-    <div className='md:hidden py-4 border flex justify-center items-center '>
-        <button onClick={togglefucntion} className='text-center'><FaFilter /></button>
+    <div className=' cursor-pointer md:hidden py-4 border flex justify-center items-center '  onClick={togglefucntion}>
+        <button className='text-center'><FaFilter /></button>
     </div>
      {/* /sidebar for mobile  */}
      <div ref={SidebarRef} 
