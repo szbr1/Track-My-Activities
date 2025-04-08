@@ -37,8 +37,11 @@ function page() {
         <button className='text-center'><FaFilter /></button>
     </div>
      {/* /sidebar for mobile  */}
+     <div className='flex'>
+
+     
      <div ref={SidebarRef} 
-     className={`${isOpen? 'translate-x-0':'-translate-x-full '} w-64 transition-transform duration-300 fixed lg:block lg:translate-x-0 left-0 z-50 inset-y-0  border-black bg-white border-r  `
+     className={`${isOpen? 'translate-x-0':'-translate-x-full '} w-64 transition-transform duration-300 fixed lg:sticky h-screen py-8 lg:translate-x-0 left-0 z-50 inset-y-0  border-black bg-white border-r  overflow-y-auto `
      }>
      <Sidebar isOpen={isOpen} setisOpen={setisOpen} />
      </div >
@@ -48,7 +51,7 @@ function page() {
             <ProductGrid products={AllProducts} />
           </div>
         </div>
-     
+        </div>
      </div>
   )
 }

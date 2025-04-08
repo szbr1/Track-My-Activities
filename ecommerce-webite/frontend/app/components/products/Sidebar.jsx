@@ -1,14 +1,19 @@
 "use client";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import { RxCross1 } from "react-icons/rx";
 function Sidebar({ isOpen, setisOpen }) {
+  // hooks 
   const searchParmas = useSearchParams();
+  const router = useRouter()
+
+
   const [filter, setFilter] = useState({
     category: "",
     gender: "",
-    color: "",
+    color: [],
     size: [],
     material: [],
     brand: [],
@@ -35,26 +40,37 @@ function Sidebar({ isOpen, setisOpen }) {
   const brand = ["Saya", "Khaddi", "Sphire", "Limelight"];
 
   // filter change checkup  function
-  const filterChange = (e) => {
-    const { name, value, checked, type } = e.target;
+  
+   const filterChange = (e) => {
+    // the functionality i am looking for is to add all the selected items in one objec of array
 
-    let newFilter = { ...filter };
-
-    if (type === "checkbox") {
-      if (checked) {
-        newFilter[name] = [...(filter[name] || []), value];
-      } else {
-        newFilter[name] = newFilter[name].filter((item) => item !== value);
-      }
-
-      
-    } else {
-      newFilter[name] = value;
+    const {name , value , checked, type} = e.target;
+    let newFilter = {...filter}
+    if(type === 'checkbox'){
+    if(checked){
+      newFilter[name] = [...(newFilter[name] || []), value]
+    }else {
+      newFilter[name] = newFilter[name].filter(item => item !== value)
     }
-    setFilter(newFilter);
-      console.log(newFilter);
-  };
+    }else {
+      newFilter[name] = value
+    }
+    setFilter(newFilter)
+   }
 
+   const updateParamsUrl = (newFilter) => {
+    const params = new URLSearchParams();
+     Object.keys(newFilter).forEach(key => {
+      if(Array.isArray(newFilter[key]) && newFilter[key].length > 0){
+        params.append(key, newFilter[key].join(','));
+      }else{
+        params.append(key, newFilter[key])
+      }
+      setSearchParams(params)
+      
+     })
+     router.push(`/Collection/all?${params.toString()}`)
+   }
   // ------------------
   useEffect(() => {
     const params = Object.fromEntries([...searchParmas]);
@@ -72,7 +88,7 @@ function Sidebar({ isOpen, setisOpen }) {
   }, [searchParmas]);
 
   return (
-    <div>
+    <div className="">
       <div className="relative w-full  ">
         <div
           className=" lg:hidden p-3 absolute right-1  top-1 "
@@ -82,7 +98,7 @@ function Sidebar({ isOpen, setisOpen }) {
         </div>
       </div>
 
-      <div className="p-4">
+      <div className="p-4 ">
         <h2 className="text-xl font-medium mb-4 ">Filter</h2>
         {/* category segment  */}
         <label className="block text-gray-600 font-medium mb-2">Category</label>
@@ -120,7 +136,8 @@ function Sidebar({ isOpen, setisOpen }) {
           })}
         </div>
 
-        {/* Colors segment  */}
+      {/* Colors segment  */}
+
         <div className="mt-4">
           <label className="block text-gray-600 font-medium mb-2">Colors</label>
           <div className="flex flex-wrap gap-2">
@@ -128,6 +145,9 @@ function Sidebar({ isOpen, setisOpen }) {
               return (
                 <div key={color}>
                   <button
+                  name="color"
+                  onClick={filterChange}
+                  value={color}
                     className="w-8 h-8 rounded-full border border-gray-300 cursor-pointer transition hover:scale-105"
                     style={{ backgroundColor: color.toLowerCase() }}
                   ></button>
@@ -157,7 +177,7 @@ function Sidebar({ isOpen, setisOpen }) {
           </div>
         </div>
         
- {/* brands  */}
+      {/* brands  */}
 
         <div className="mt-4">
           <label className="block text-gray-600 font-medium mb-2">Brands</label>
@@ -177,15 +197,37 @@ function Sidebar({ isOpen, setisOpen }) {
           </div>
         </div>
 
+         {/* Material  */}
+
+         <div className="mt-4">
+          <label className="block text-gray-600 font-medium mb-2">Material</label>
+          <div className="grid grid-cols-2">
+            {material.map((material) => (
+              <div key={material} className="flex items-center mb-1">
+                <input
+                value={material}
+                  type='checkbox'
+                  name="material"
+                  onChange={filterChange}
+                  className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 cursor-pointer border-gray-300"
+                />
+                <span className="text-gray-700">{material}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+{/* price  */}
         <div className="mt-4">
           <label className="block text-gray-600 font-medium mb-2">
             Price Range
           </label>
-          <input type="range" min={0} max={100} />
+          <input type="range" min={0} max={100} value={priceRange[1]} onChange={(e)=> setPriceRange([0, e.target.value])} />
           <div className="font-mono flex justify-between pr-24">
             <span>0</span> <span>{priceRange[1]}</span>
           </div>
         </div>
+
       </div>
     </div>
   );
