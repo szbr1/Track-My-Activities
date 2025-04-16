@@ -6,6 +6,7 @@ function Hero() {
   return (
     <div>
         {/* main  */}
+        
         <Banner />
         <div>
          <Scroller />

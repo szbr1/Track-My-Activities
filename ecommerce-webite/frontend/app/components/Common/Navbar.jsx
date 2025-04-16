@@ -39,11 +39,14 @@ function Navbar() {
       
        {/* side buttons  */}
       <div className='text-xl flex gap-3'>
+        <Link href={'/admin'} className='text-sm bg-black text-white px-2 py-1 rounded-md cursor-pointer'>admin</Link>
       <FaLuggageCart className=' cursor-pointer hover:text-gray-300' onClick={()=> setCartOpen(!cartOpne)}/>
       <IoSearchOutline  className='cursor-pointer hover:text-gray-200'/>
+
       <AiOutlineAlignRight  onClick={()=> sethamburger(!hamburger)}className='cursor-pointer md:hidden block hover:text-gray-200'/>
 
       </div>
+      
       {/* cart toogle  */}
     {
       cartOpne ?  <Cartlayout cart={cartOpne} setCart={setCartOpen} /> : null
