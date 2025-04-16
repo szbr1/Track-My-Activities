@@ -46,7 +46,7 @@ const similarProducts = [
     },
     {
         _id: 3,
-        name: "Product 1",
+        name: "Product 4",
         price: 100,
         images: [
             {url: "http://picsum.photos/500/500?random=10"}
