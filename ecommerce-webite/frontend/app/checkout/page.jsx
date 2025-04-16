@@ -4,6 +4,53 @@ import { IoLogoPaypal } from "react-icons/io5";
 import { AiFillCreditCard } from "react-icons/ai";
 
 function page() {
+  const products = [
+    {
+      _id: "123455",
+      Price: 38,
+      shippingAddress: { city: "New York", country: "USA" },
+      ordersItems: [
+        {
+          name: "Product 1",
+          image: "https://picsum.photos/500/500?random=99",
+        },
+      ],
+      size: 'Small',
+      Classic: 'Brown',
+      isPaid: true,
+    },
+
+    {
+      _id: "12345",
+      createdAt: new Date(),
+      shippingAddress: { city: "New York", country: "USA" },
+      ordersItems: [
+        {
+          name: "Product 1",
+          image: "https://picsum.photos/500/500?random=1",
+        },
+      ],
+      Classic: 'Pink',
+      size: 'Medium',
+      totalPrice: 100,
+      isPaid: true,
+    },
+    {
+      _id: "12346",
+      createdAt: new Date(),
+      shippingAddress: { city: "Los Angeles", country: "USA" },
+      ordersItems: [
+        {
+          name: "Product 2",
+          image: "https://picsum.photos/500/500?random=2",
+        },
+      ],
+      Classic: 'Green',
+      totalPrice: 150,
+      size: 'Medium',
+      isPaid: false,
+    },
+  ]
     const [payment , setpayment] = useState(null)
   const [ShippingAddress, setshippingAddresss] = useState({
     address: "",
@@ -26,7 +73,7 @@ function page() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 ">
       {/* segment 1  */}
-      <div className="bg-white rounded-lg p-2 flex justify-center  flex-col">
+      <div className="bg-white rounded-lg p-2 flex justify-center lg:ml-44  flex-col">
         <h1 className="text-3xl uppercase">checkout</h1>
         <br />
         <h4 className="text-2xl font-bold w-full  ">Contact Details</h4>
@@ -55,7 +102,7 @@ function page() {
                     firstName: e.target.value,
                   })
                 }
-                className="border-gray-200 border"
+                className="w-4/5 border-gray-200 border"
               />
             </div>
 
@@ -135,7 +182,7 @@ function page() {
                 Country: e.target.value,
               })
             }
-            className="w-96 p-1  mt-2 border border-gray-200 focus:outline-none focus:border-gray-200"
+            className="w-full p-1  mt-2 border border-gray-200 focus:outline-none focus:border-gray-200"
           />
 
           <label className="text-gray-600">Phone</label>
@@ -163,22 +210,35 @@ function page() {
       </div>
 
       {/* segment 2  */}
-      <div className="p-2  h-screen w-full flex  items-center">
+      <div className="p-2  h-screen w-full lg:w-4/6 flex  items-center">
         <div className="bg-green-50 w-full lg:ml-0 rounded-md h-4/5 p-2">
           <h2 className="text-2xl py-3 font-bold">Order Summary</h2>
           <hr className="text-gray-200 text-xl pb-3" />
-          <div className="flex">
-            <img
-              src="https://picsum.photos/id/110/300/300"
+          <div className="flex flex-col">
+   { products.map(product => {
+    return (
+      <div key={product._id} className="flex mt-3">
+
+<img
+              src={product.ordersItems[0].image}
               alt=""
               className="h-18 w-14"
             />
-            <div className="ml-3">
-              <div>Classic: </div>
-              <div className="text-gray-600">S :</div>
-              <div className="text-gray-600">Color : </div>
+            <div className="ml-3 w-full">
+              <div className="flex justify-between ">
+
+              <div>Classic: {product.Classic} </div>
+            <div className="  font-bold">$39.99</div>
+              </div>
+              <div className="text-gray-600">S : {product.size}</div>
+              <div className="text-gray-600">Color : {product.Classic} </div>
             </div>
-            <div className="ml-36 font-bold">$39.99</div>
+
+      </div>
+    )
+   })
+    
+            }
           </div>
           <hr className="text-gray-200 text-xl mt-2 pb-3" />
           <div className="flex justify-between   w-full">
