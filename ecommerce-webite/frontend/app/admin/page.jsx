@@ -33,14 +33,14 @@ function page() {
     const [togglesidebar , settoggleSidebar] = useState(false)
 
   return (
-    <div className='min-h-screen w-full relative flex  '>
-    <nav className='md:hidden h-10 w-full bg-slate-950 opacity-90 flex items-center text-white'>
+    <div className='min-h-screen w-full relative flex flex-col '>
+    <nav className='md:hidden z-10 h-10 w-full bg-slate-950 opacity-90 flex items-center text-white'>
         <RxHamburgerMenu onClick={()=> settoggleSidebar(!togglesidebar)} className='text-2xl ml-3' />
             &nbsp; Dashboard 
     </nav>
 
     
-        <div className={` absolute top-0 left-0 w-64 h-screen bg-slate-800 transition-all duration-300 ${togglesidebar ? 'translate-x-0': '-translate-x-full'} lg:translate-0`}>
+        <div className={` absolute top-0 left-0 w-64 h-screen bg-slate-800 transition-all duration-300 z-30 ${togglesidebar ? 'translate-x-0': '-translate-x-full'} md:translate-0`}>
         
         {/* cross button  */}
          <div className='md:hidden cursor-pointer mt-3 text-end'>
@@ -69,10 +69,11 @@ function page() {
          <button className='flex bg-red-500 text-white w-32 py-2 rounded-md  ml-6 px-1'><LogOut /> &nbsp; Logout</button>
          </div>
         </div>
+        <br />
         
-       <div className='ml-72 w-full  '>
-        <div className='text-2xl mt-8 font-bold mb-5 '>Admin Dashboard</div>
-        <div className='grid grid-col-1 sm:grid-col-2 md:grid-cols-3 gap-x-5'>
+       <div className='lg:ml-72  p-2  '>
+        <div className='text-2xl lg:mt-8 font-bold mb-5 '>Admin Dashboard</div>
+        <div className='grid grid-col-1 gap-3 sm:grid-col-2 md:grid-cols-3 md:gap-0 '>
 
         
 
@@ -97,7 +98,9 @@ function page() {
          </div>
         </div>
          <div className='mt-12 h-[2px] w-full bg-slate-200 '></div>
-        <div className='mt-8 font-bold text-2xl mb-8'>Recent Orders</div>
+        <div className='mt-8 overflow-x-scroll  font-bold text-2xl mb-8'>Recent Orders</div>
+        <div className='overflow-x-auto '>
+
         <table>
           <thead>
             <tr className=' bg-gray-200 w-full rounded-md '>
@@ -123,6 +126,7 @@ function page() {
             
           </tbody>
         </table>
+                  </div>
        </div>
         
     
