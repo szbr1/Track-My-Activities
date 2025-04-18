@@ -79,8 +79,8 @@ function page() {
         settoggleSidebar={settoggleSidebar}
       />
 
-      <div className=" lg:p-10  w-full">
-        <div className="lg:text-2xl text-xl font-bold py-7 ">Product Management</div>
+      <div className=" md:p-10  w-full">
+        <div className="lg:text-2xl text-xl font-bold py-7 ml-3 md:m-0">Product Management</div>
         <div className="overflow-x-auto p-2 ">
           <table className="w-[37rem] md:w-full text-left ">
             <thead className="mb-6 ">

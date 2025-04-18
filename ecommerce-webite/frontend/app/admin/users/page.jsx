@@ -31,7 +31,7 @@ function page() {
      }
      
   return (
-    <div className='flex'>
+    <div className='md:flex'>
               <AdminNavbar togglesidebar={togglesidebar} settoggleSidebar={settoggleSidebar}/>
      {/* sidebar  */}
        <AdminSidebar togglesidebar={togglesidebar} settoggleSidebar={settoggleSidebar} />

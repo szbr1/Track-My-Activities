@@ -26,7 +26,7 @@ function AdminSidebar({togglesidebar, settoggleSidebar}) {
          <Link href={'/admin/products'} className='text-white font-bold flex active:bg-slate-700 pl-7 pr-14 py-2 w-52 rounded-md uppercase hover:bg-slate-400'>
     <FaBoxOpen className='mt-1 text-2xl' /> &nbsp; Products
      </Link>
-     <Link href={''} className='text-white font-bold w-52 active:bg-slate-700 pl-7 pr-14 py-2 rounded-md uppercase flex hover:bg-slate-400 '>
+     <Link href={'/admin/orders'} className='text-white font-bold w-52 active:bg-slate-700 pl-7 pr-14 py-2 rounded-md uppercase flex hover:bg-slate-400 '>
     <Building /> &nbsp;Orders
      </Link>
      <Link href={''} className='text-white font-bold w-52 active:bg-slate-700 pl-7 pr-14 py-2 rounded-md uppercase flex hover:bg-slate-400'>

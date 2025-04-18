@@ -72,7 +72,7 @@ function page() {
         <div className='mt-8 overflow-x-auto  font-bold text-2xl mb-8'>Recent Orders</div>
         <div className='overflow-x-auto '>
 
-        <table className='w-[40rem] md:w-3/5'>
+        <table className='w-[40rem] md:w-full'>
           <thead>
             <tr className=' bg-gray-200 w-full rounded-md '>
               <th className='w-80 text-start px-3 py-2 uppercase text-sm' >order id</th>
