@@ -7,7 +7,7 @@ import { FaShop } from 'react-icons/fa6'
 
 function AdminSidebar({togglesidebar, settoggleSidebar}) {
   return (
-    <div>        <div className={` absolute top-0 left-0 w-64 h-screen bg-slate-800 transition-all duration-300 z-30 ${togglesidebar ? 'translate-x-0': '-translate-x-full'} md:translate-0`}>
+    <div>        <div className={`  top-0 left-0 md:sticky absolute w-64 h-screen bg-slate-800 transition-all duration-300 z-30 ${togglesidebar ? 'translate-x-0': '-translate-x-full'} md:translate-0`}>
         
     {/* cross button  */}
      <div className='md:hidden cursor-pointer mt-3 text-end'>
@@ -23,7 +23,7 @@ function AdminSidebar({togglesidebar, settoggleSidebar}) {
     <Users2 /> &nbsp; Users
      </Link>
      
-         <Link href={''} className='text-white font-bold flex active:bg-slate-700 pl-7 pr-14 py-2 w-52 rounded-md uppercase hover:bg-slate-400'>
+         <Link href={'/admin/products'} className='text-white font-bold flex active:bg-slate-700 pl-7 pr-14 py-2 w-52 rounded-md uppercase hover:bg-slate-400'>
     <FaBoxOpen className='mt-1 text-2xl' /> &nbsp; Products
      </Link>
      <Link href={''} className='text-white font-bold w-52 active:bg-slate-700 pl-7 pr-14 py-2 rounded-md uppercase flex hover:bg-slate-400 '>

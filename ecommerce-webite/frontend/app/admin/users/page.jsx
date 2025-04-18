@@ -31,11 +31,11 @@ function page() {
      }
      
   return (
-    <div>
+    <div className='flex'>
               <AdminNavbar togglesidebar={togglesidebar} settoggleSidebar={settoggleSidebar}/>
      {/* sidebar  */}
        <AdminSidebar togglesidebar={togglesidebar} settoggleSidebar={settoggleSidebar} />
-       <div className='lg:ml-64 w-full md:w-3/4 min-h-screen px-2 md:px-4 lg:px-12 py-5'>
+       <div className=' w-full md:w-3/4 min-h-screen px-2 md:px-4 lg:px-12 py-5'>
         <span  className='text-2xl py-5 font-bold'>User Management</span>
 
        <div className=' w-full lg:mt-3'>

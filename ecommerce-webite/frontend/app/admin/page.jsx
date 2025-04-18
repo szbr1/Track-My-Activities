@@ -2,10 +2,7 @@
 import { Building, LogOut, Users2 } from 'lucide-react'
 import Link from 'next/link'
 import React, { useState } from 'react'
-import { FaBoxOpen, FaHamburger } from 'react-icons/fa'
-import { FaShop } from 'react-icons/fa6'
-import { GiHamburger } from 'react-icons/gi'
-import { RxHamburgerMenu } from 'react-icons/rx'
+
 import AdminSidebar from '../components/Common/AdminSidebar'
 import AdminNavbar from '../components/Common/AdminNavbar'
 
@@ -35,16 +32,16 @@ function page() {
     const [togglesidebar , settoggleSidebar] = useState(false)
 
   return (
-    <div className='min-h-screen w-full relative flex flex-col '>
+    <div className='min-h-screen w-full relative md:flex  '>
     {/* navbar  */}
       <AdminNavbar togglesidebar={togglesidebar} settoggleSidebar={settoggleSidebar}/>
      {/* sidebar  */}
        <AdminSidebar togglesidebar={togglesidebar} settoggleSidebar={settoggleSidebar} />
         <br />
         
-       <div className='lg:ml-72  p-2  '>
+       <div className='  px-10  '>
         <div className='text-2xl lg:mt-8 font-bold mb-5 '>Admin Dashboard</div>
-        <div className='grid grid-col-1 gap-3 sm:grid-col-2 md:grid-cols-3 md:gap-0 '>
+        <div className='flex flex-wrap  gap-5 '>
 
         
 
@@ -53,6 +50,7 @@ function page() {
           <br />
           <span className='text-2xl'>$1000</span>
          </div>
+
          <div className='font-semibold shadow-md rounded-lg w-64 py-4 border border-gray-200 p-2'>
           <span className='text-xl'>Total Orders </span>
           <br />
@@ -60,6 +58,7 @@ function page() {
           <br />
           <Link href={'/admin'} className='text-blue-800 hover:underline'>Manage Orders</Link>
          </div>
+
          <div className='font-semibold shadow-md rounded-lg w-64 py-4 border border-gray-200 p-2'>
           <span className='text-xl'>Total Products </span>
           <br />
@@ -68,8 +67,9 @@ function page() {
 
          </div>
         </div>
+
          <div className='mt-12 h-[2px] w-full bg-slate-200 '></div>
-        <div className='mt-8 overflow-x-scroll  font-bold text-2xl mb-8'>Recent Orders</div>
+        <div className='mt-8 overflow-x-auto  font-bold text-2xl mb-8'>Recent Orders</div>
         <div className='overflow-x-auto '>
 
         <table className='w-[40rem] md:w-3/5'>
