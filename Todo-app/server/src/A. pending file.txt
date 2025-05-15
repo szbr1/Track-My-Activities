@@ -1,1 +1,5 @@
-jsonwebtoken remaning in this register file only. 
+//complete  or not 
+//desc
+//id
+
+i have to start again all this todos schema and more without tutorial 

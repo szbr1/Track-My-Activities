@@ -1,6 +1,10 @@
 import { validationResult } from "express-validator";
 import User from "../Schemas/userSchema.js";
 import bcrypt from "bcryptjs";
+import jsonToken from "../utils/jwt.js";
+
+//* Register Page
+
 export const authRegister =async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -24,7 +28,8 @@ export const authRegister =async (req, res) => {
     email,
     password: hashPassword
   })
-
+  //json token that i created seprately 
+  jsonToken(newUser._id,req)
   newUser.save()
   // If no errors:
   return res.status(200).json({ success: req.body });
@@ -33,7 +38,38 @@ export const authRegister =async (req, res) => {
 
 // .  error.isEmpty() //! means if there is no error so run this 
 // .  !error.isEmpty() //!measn if there is error so run this 
-// .  isEmpty() checks //! there is error or not 
+// .  isEmpty()  //!checks there is error or not 
 
 
-// jsonwebtoken && how to use created todo collection 
+//* Login page
+
+export const authLogin =async (req,res)=>{
+  try {
+    
+  
+   
+  const error = validationResult(req);
+  if(!error.isEmpty()){
+  return res.status(401).json({error:error.array()})
+  }
+  const {email, password} = req.body;
+  if(!email || !password){
+  return res.status(400).json('fill all fields')
+  }
+
+  const userFound = await User.findOne({email})
+  if(!userFound){
+  return res.status(400).json('please create account.')
+  }
+  
+  const checkPass  = await bcrypt.compare( password, userFound.password)
+  if(!checkPass){
+  return res.status(400).json('Invalid creadentials.')
+
+  }
+  jsonToken(userFound._id, req)
+  return res.status(200).json({email: email, password: userFound.password})
+} catch (error) {
+    console.log({error: error})
+}
+}

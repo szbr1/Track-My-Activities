@@ -12,6 +12,10 @@ const userSchema = new mongoose.Schema({
         max: 29,
         required: true
     },
+    todos:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Todo'
+    }],
     username: {
         type: String,
         required: true

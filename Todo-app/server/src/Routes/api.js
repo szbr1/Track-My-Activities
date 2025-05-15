@@ -1,9 +1,18 @@
 import express from 'express'
-import { authRegister } from '../Controllers/auth.routes.js';
-import { authValidator } from '../express-validator/authValidator.js';
+import { authLogin, authRegister } from '../Controllers/auth.routes.js';
+import { SigninValidator, signUpValidator } from '../express-validator/authValidator.js';
+import { todoValidator } from '../express-validator/todoValidator.js';
+import { getTodo, todo } from '../Controllers/todo.routes.js';
+import middleware from '../middleware/middleware.js';
 
 const route = express.Router()
 
-route.post('/register',authValidator(), authRegister)
+route.post('/register',signUpValidator(), authRegister)
+route.post('/login',SigninValidator(),authLogin )
+
+//todos 
+route.post('/todos',todoValidator(),middleware,todo)
+route.get('/fetchtodos',middleware,getTodo)
+
 
 export default route;
