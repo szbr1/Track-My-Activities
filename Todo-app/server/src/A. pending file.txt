@@ -7,9 +7,61 @@
 // is ma mena ya sikah agar mena koi data ref sa put krna hai kisi ma to ma create() kr ka usay mena findOneAndUpdate() kr ka push kr dena hai 
 
 
-and get krtay huway mena notice kia ka mena schema ma todos name sa jo field bnai thi wo ak object hai chat gpt na kha agar multiple result chaiya to usko tum array bnao usko bus phir mena us object ka around [] de dia.
+and get krtay huway mena notice kia ka mena schema ma todos name sa jo field bnai thi wo ak object hai chat gpt na kha agar multiple result chaiya to usko tum array bnao usko bus phir mena us object ka around [] de dia 
 
 and one more thing ref jo hoota wo schema ka ander jab mongoose.model('Todo')   so agar yahan Todo dia tha to ref Todo do
-agar mongoose.model('todo') dia tha to ref bi todo hi do ga.
+agar mongoose.model('todo') dia tha to ref bi todo hi do
+
+mena
 
 
+
+### ✅ Flow:
+
+1. Made **middleware** (for JWT verification)
+2. Created **API route**
+3. Created **todo schema**
+4. Made **controller**
+
+---
+
+### ✅ How to Add (POST)
+
+* Use `Todo.create()` to add new todo
+* Then `User.findOneAndUpdate()` with `$push` to add that todo’s `_id` in the user’s `todos` array
+
+---
+
+### ✅ Important:
+
+* In **User schema**, `todos` was a single object.
+* To store multiple todos, changed it to an **array**
+
+```js
+todos: [{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'Todo'
+}]
+```
+
+---
+
+### ✅ About `ref`
+
+* The **ref value should match your model name**
+
+```js
+mongoose.model('Todo', todoSchema)
+// then use ref: 'Todo'
+
+
+isCompleted ko update krna ka lia humain controller ma new file create krni pray gi or whan ja kr hum na kuch push nahi krn update krna hai means ka put krna hai so iska lia hum simple sa usko bta dain ga ka kya cheezain required hain update krna ka lia like userId and body
+
+  _id: req.body.todo_id,   // find todo by its id
+   userId: req.userId,      // and also make sure it belongs to this user
+
+   Q: update the data true to flase means toggle it in mongoose.
+
+
+   remaing.
+   have to start from 📌updateTask 
