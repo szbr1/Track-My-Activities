@@ -2,4 +2,14 @@
 //desc
 //id
 
-i have to start again all this todos schema and more without tutorial 
+//sabse pehla mena middlware then api ma route create kia uska bad mena schema bnaye todo ka lia bad ma mena controller bnaya
+//todocontroller 
+// is ma mena ya sikah agar mena koi data ref sa put krna hai kisi ma to ma create() kr ka usay mena findOneAndUpdate() kr ka push kr dena hai 
+
+
+and get krtay huway mena notice kia ka mena schema ma todos name sa jo field bnai thi wo ak object hai chat gpt na kha agar multiple result chaiya to usko tum array bnao usko bus phir mena us object ka around [] de dia.
+
+and one more thing ref jo hoota wo schema ka ander jab mongoose.model('Todo')   so agar yahan Todo dia tha to ref Todo do
+agar mongoose.model('todo') dia tha to ref bi todo hi do ga.
+
+
