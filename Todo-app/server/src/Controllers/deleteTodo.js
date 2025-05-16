@@ -1,24 +1,22 @@
-import Todo from "../Schemas/todoSchema.js";
-import User from "../Schemas/userSchema.js";
-//verify
-//result
+import Todo from "../Schemas/todoSchema.js"
+import User from "../Schemas/userSchema.js"
 
-export const deleteTodo = async (req, res) => {
+export const deleteTodo = async (req , res)=>{
+  const {token_id} = req.body
+  if(!token_id){
+    return res.status(400).json('No token found')
+  }
   try {
-     //verify
-     const {todo_id} = req.body
-     if(!todo_id){
-        return res.status(400).json('To delete required Id')
-     }
-   const result =  await Todo.findOneAndDelete({userId: req.userId, _id: todo_id})
-   if(!result){
-    return res.status(400).json({success:false, message: "THERE IS NO TODO WITH SUCH ID"})
+   const verification = await Todo.findOneAndDelete({_id:token_id, userId: req.userId})
+   if(!verification){
+    return res.status(400).json('failed to delte')
    }
-   await User.findOneAndUpdate({_id:req.userId}, {$pull: {todos: todo_id}},{new: true})
-   return res.status(200).json({success:true,result:"Todo Deleted Successfully"})
+   const result= await User.findOneAndUpdate({_id:req.userId},{ $push: {todos: token_id}})
+   return res.status(200).json(result)
 
   } catch (error) {
-    console.log({ deleteError: error });
-    return res.status(500).json("Failed at deleteTodo");
+    console.log({error: error})
+    res.status(500).json('failed')
+    
   }
-};
+}

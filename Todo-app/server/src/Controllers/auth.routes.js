@@ -29,7 +29,14 @@ export const authRegister =async (req, res) => {
     password: hashPassword
   })
   //json token that i created seprately 
-  jsonToken(newUser._id,req)
+  const token = jsonToken(newUser._id)
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+  });
   newUser.save()
   // If no errors:
   return res.status(200).json({ success: req.body });
@@ -67,8 +74,14 @@ export const authLogin =async (req,res)=>{
   return res.status(400).json('Invalid creadentials.')
 
   }
-  jsonToken(userFound._id, req)
-  return res.status(200).json({email: email, password: userFound.password})
+ const token=  jsonToken(userFound._id)
+ res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "strict",
+  maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+});
+  return res.status(200).json({success: true, message: 'Login Successfully'})
 } catch (error) {
     console.log({error: error})
 }

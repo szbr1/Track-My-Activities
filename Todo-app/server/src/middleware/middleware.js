@@ -1,24 +1,23 @@
-//jwt
-//verify
-//decode
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
-const middleware = (req,res,next)=>{
-    const header = req.headers.authorization
-    if(!header){
-        return res.status(400).json('No headers found')
-    }
-    const token = req.headers.authorization.split(' ')[1]
-    if(!token){
-        return res.status(401).json('no token found')
-    }
-    jwt.verify(token,process.env.TOKEN, (err,decode)=>{
-        if(err){
-            return res.status(401).json({error:err})
-        }
-        req.userId = decode.userId;
-        next()
-    })
+const authMiddleware = (req, res, next) => {
+  // get token from cookies
+  const token = req.cookies.token;
 
-}
-export default middleware
+  if (!token) {
+    return res.status(401).json('No token found in cookies');
+  }
+
+  // verify token
+  jwt.verify(token, process.env.TOKEN, (err, decoded) => {
+    if (err) {
+      return res.status(401).json('Invalid or expired token');
+    }
+
+    // save userId for next middleware/routes
+    req.userId = decoded.userId;
+    next();
+  });
+};
+
+export default authMiddleware;

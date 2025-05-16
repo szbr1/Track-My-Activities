@@ -1,17 +1,32 @@
+'use client'
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { login } from "../backend/axios";
 
 function page() {
+  const [form , setform] = useState({email: '', password:''})
+
+  const handleOrigin = (e)=>{
+      setform({...form, [e.target.name]: e.target.value})
+     
+  }
+  const handleSubmit = (e)=>{
+    e.preventDefault()
+    console.log(form)
+    login(form)
+  }
+
   return (
     <div className="h-screen overflow-hidden w-full bg-blue-200 flex justify-center items-center">
       <div className="h-3/5 p-2 w-3/7 rounded-2xl bg-blue-100 backdrop:block border border-black">
         <h1 className="text-center font-mono text-xl">Login page</h1>
-        <form className="flex flex-col  ml-32 mt-20 ">
+        <form onSubmit={handleSubmit} className="flex flex-col  ml-32 mt-20 ">
           <div>
-            <label htmlFor="username">Username:</label> <br />
+            <label htmlFor="email">Email:</label> <br />
             <input
               type="text"
-              name="username"
+              onChange={handleOrigin}
+              name="email"
               className="border-gray-500 border py-1 rounded-sm w-4/6 focus:outline-none focus:border-gray-700 focus:border-2 px-2"
             />
           </div>
@@ -20,6 +35,7 @@ function page() {
             <br />
             <input
               type="password"
+              onChange={handleOrigin}
               name="password"
               className="border-gray-500 border py-1 rounded-sm w-4/6 focus:outline-none focus:border-gray-700 focus:border-2 px-2"
             />
