@@ -1,20 +1,29 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 
-import Routes from '../src/routes/auth.routes.js'
+import AuthRoutes from './routes/api.js'
+import MsgRoutes from './routes/msg.api.js'
 import monogoDB from './lib/db.js'
 
 dotenv.config()
 const app = express()
+app.use(cookieParser())
+app.use(express.json())
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
 }))
 
-app.use('/api', Routes)
+//routes
+app.use('/api', AuthRoutes)
+app.use('/api', MsgRoutes)
+
+//database connection
 monogoDB()
-const Host = process.env.HOST
-app.listen(Host , ()=>{
+
+const PORT = process.env.HOST
+app.listen(PORT , ()=>{
     console.log('http://localhost:8000')
 })
