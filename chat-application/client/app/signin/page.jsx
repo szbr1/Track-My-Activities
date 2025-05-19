@@ -80,7 +80,7 @@ function page() {
               </g>
             </svg>
             <input
-              type={eye? 'password': 'text'}
+              type={eye? 'text': 'password'}
               required
                onChange={handleForm} 
               name="password"

@@ -18,7 +18,7 @@ app.use(cors({
 
 //routes
 app.use('/api', AuthRoutes)
-app.use('/api', MsgRoutes)
+app.use('/api/messages', MsgRoutes)
 
 //database connection
 monogoDB()

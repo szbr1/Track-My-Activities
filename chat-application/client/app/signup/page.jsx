@@ -59,7 +59,6 @@ function page() {
                onChange={handleForm} 
               required
               placeholder="Username"
-              pattern="[A-Za-z][A-Za-z0-9\-]*"
               minLength="3"
               maxlength="30"
               name="username"
@@ -115,7 +114,7 @@ function page() {
               </g>
             </svg>
             <input
-              type={eye? 'password': 'text'}
+              type={eye? 'text': 'password'}
               required
                onChange={handleForm} 
               name="password"

@@ -1,3 +1,4 @@
+
 import { create } from "zustand";
 import axiosInstance from "../lib/axios";
 import toast from "react-hot-toast";
@@ -58,15 +59,19 @@ export const useAuthPage = create((set,get)=>({
            set({isUpdatingProfile: true})
            const result=await axiosInstance.post("/profile", data)
            console.log(result.data)
-           set({authUser:result.data, isUpdatingProfile:false})
-           toast.error("profile updated successfully")
-           router.push('/signin')
+           set({ authUser:result.data , isUpdatingProfile:false})
+           const authUser = get().authUser
+           console.log("this is auth",authUser)
+           toast.success("profile updated successfully")
+           
         } catch (error) {
             console.error(error)
             set({isUpdatingProfile:false})
             toast.error("Server error try again latter")
         }
     },
+
+    
 
 }))
 

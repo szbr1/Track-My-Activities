@@ -27,6 +27,7 @@ export const signup = async (req, res) => {
       });
   
       // convert to plain object
+      jsonGenerate(User._id,res)
       const userObj = newUser.toObject();
       delete userObj.password; // remove password
   
@@ -85,17 +86,17 @@ export const signout = async (req,res)=>{
 
 export const updateProfile = async (req,res)=>{
     try {
-        const {updateProfile} = req.body; 
-        if(!updateProfile){
+        const {profilePic} = req.body; 
+        if(!profilePic){
         return  res.status(400).json('Unable to update profile picture')
         }
-        const response = await cloudinary.uploader.upload(updateProfile);
+        const response = await cloudinary.uploader.upload(profilePic);
         const upload = await User.findByIdAndUpdate(req.userId,{profilePic: response.secure_url}, {new: true})
-        return res.status(200).json({success:true,changes:upload})
+        return res.status(200).json(upload)
 
     } catch (error) {
         console.error({ResultError: error})
-        res.status(500).json({success: false, message: 'Crashed at updateProfile'})
+        res.status(500).json({success: false, message: 'Crashed at profilePic'})
     }
 }
 
