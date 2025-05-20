@@ -2,25 +2,47 @@ import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import connectionDB from './lib/db.js'
+import {clerkMiddleware} from '@clerk/express'
+import fileUpload from 'express-fileupload'
+import path from 'path'
+
+//routes
+import usersRoutes from './routes/user.route.js'
+import songsRoutes from './routes/song.route.js'
+import albumRoutes from './routes/album.route.js'
+import adminRoutes from './routes/admin.route.js'
 
 
 const app = express()
 
+const __dirname = path.resolve()
+
 dotenv.config()
 app.use(express.json())
+app.use(clerkMiddleware())   // this give us req.auth 
 let ORIGIN = process.env.ORIGIN
 app.use(cors({
-    origin: `http://localhost${ORIGIN}`,
+    origin: ORIGIN,
     credentials: true
 }))
 
 
-// app.use('/api', usersRoutes)
-// app.use('/api', songsRoutes )
-// app.use('/api', albumRoutes )
-// app.use('/api', statsRoutes)
+app.use('/api', usersRoutes)
+app.use('/api', songsRoutes )
+app.use('/api', albumRoutes )
+app.use('/api', adminRoutes)
 
-app.get('/',(req,res)=>res.send('Hello Boys'))
+app.use((err,req,res,next)=>{
+    res.status(502).json({message: process.env.STATUS === 'DEVELOPMENT'? err.message: 'Some error! please try later' })
+})
+
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: path.join(__dirname, 'temp' ),
+    createParentPath: true,
+    limits: {fileSize: 10*1024*1024}
+    
+}))
 
 const PORT = process.env.PORT
 
@@ -28,5 +50,5 @@ const PORT = process.env.PORT
 connectionDB()
 
 app.listen(PORT, ()=>{
-    console.log("http://localhost:"+PORT)
+    console.log(PORT)
 })
