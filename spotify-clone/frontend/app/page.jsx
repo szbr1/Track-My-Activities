@@ -1,12 +1,25 @@
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 
 export default function Home() {
   return (
-    <>
-    <div className="p-4 h-screen w-full bg-slate-500">
-      <Button variant={"link"}>Next.js</Button>
+    <div className="min-h-screen w-full  bg-gray-500">
+      <SignedOut>
+        <SignInButton>
+          <Button>Sign In</Button>
+        </SignInButton>
+        <SignUpButton />
+      </SignedOut>
+      <SignedIn>
+        <UserButton>
+        </UserButton>
+      </SignedIn>
     </div>
-    </>
   );
 }

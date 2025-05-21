@@ -1,14 +1,5 @@
-import { Button } from "@/components/ui/button";
 import "./globals.css";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from '@clerk/nextjs'
-
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata = {
   title: "Create Next App",
@@ -18,23 +9,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-
-    <html lang="en">
-      <body>
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
-            <SignedOut>
-            <Button variant={"outline"}>
-            <SignInButton />
-              </Button> 
-              <SignUpButton />
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </header>
+      <html lang="en">
+        <body>
+          <header className="flex justify-end items-center p-4 gap-4 h-16"></header>
           {children}
         </body>
-    </html>
+      </html>
     </ClerkProvider>
   );
 }
