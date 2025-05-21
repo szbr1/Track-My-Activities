@@ -27,10 +27,10 @@ app.use(cors({
 }))
 
 
-app.use('/api', usersRoutes)
-app.use('/api', songsRoutes )
-app.use('/api', albumRoutes )
-app.use('/api', adminRoutes)
+app.use('/api/user', usersRoutes)
+app.use('/api/song', songsRoutes )
+app.use('/api/album', albumRoutes )
+app.use('/api/admin', adminRoutes)
 
 app.use((err,req,res,next)=>{
     res.status(502).json({message: process.env.STATUS === 'DEVELOPMENT'? err.message: 'Some error! please try later' })

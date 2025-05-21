@@ -1,8 +1,10 @@
 import express from 'express'
-import { authUserCallback } from '../controllers/users.js';
+import { allUsers, authUserCallback } from '../controllers/users.controller.js';
+import { protectedRoute } from '../middleware/protectedRoute.js';
 
 const route = express.Router()
-route.post("/callback" ,authUserCallback )
+
+route.get('/', protectedRoute, allUsers)
 
 
 export default route;

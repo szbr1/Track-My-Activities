@@ -1,14 +1,21 @@
-import express from 'express'
-import { adminProtection } from '../middleware/adminProtection.js';
-import { protectedRoute } from '../middleware/protectedRoute.js';
-import { delteSong, song } from '../controllers/admin.controller.js';
-import Song from '../models/song.model.js';
-import Album from '../models/album.model.js';
+import express from "express";
+import { adminProtection } from "../middleware/adminProtection.js";
+import { protectedRoute } from "../middleware/protectedRoute.js";
+import {
+  delteSong,
+  song,
+  album,
+  delAlbum,
+} from "../controllers/admin.controller.js";
 
-const route = express.Router()
 
-route.post("/songs",protectedRoute, adminProtection, song)
-route.delete("/songs/:id",protectedRoute,adminProtection,delteSong)
+const route = express.Router();
+route.use(protectedRoute, adminProtection);
 
+route.post("/songs", song);
+route.delete("/songs/:id", delteSong);
+
+route.post("/album", album);
+route.delete("/album/:id", delAlbum);
 
 export default route;

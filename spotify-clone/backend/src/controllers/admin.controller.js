@@ -1,21 +1,26 @@
 import { json } from "express";
-import cloudinary from "../lib/cloudinary";
-import Album from "../models/album.model";
-import Song from "../models/song.model";
+import cloudinary from "../lib/cloudinary.js";
+import Album from "../models/album.model.js";
+import Song from "../models/song.model.js";
+
+
+// cloudinary function 
+async function dataSetter(file) {
+  try {
+    const data = await cloudinary.uploader.upload(file, {
+      resource_type: "auto",
+    });
+    return data.secure_url;
+  } catch (error) {
+    console.error({ detailError: error });
+  }
+}
+
+
+
+//! Routes 
 
 export const song = async (req, res, next) => {
-  async function dataSetter(file) {
-    try {
-      const data = await cloudinary.uploader.upload(file, {
-        resource_type: "auto",
-      });
-      return data.secure_url;
-    } catch (error) {
-      console.error({ detailError: error });
-      return res.status(400).json({ message: "Cloudinary server failed" });
-    }
-  }
-
   try {
     if (!req.files || !req.files.audioFile || !req.files.imageFile) {
       return res.status(400).json("Please upload all files");
@@ -58,19 +63,55 @@ export const delteSong = async (req, res, next) => {
   try {
     const { id } = req.params;
     const del = await Song.findByIdAndDelete(id);
-    if(!del) {
+    if (!del) {
       return res.status(400).json("No song found");
     }
-    if(del.albumId) {
+    if (del.albumId) {
       try {
         await Album.findOneAndUpdate({ songs: id }, { $pull: { songs: id } });
       } catch (error) {
         next(error);
-      } 
+      }
     }
     return res.status(200).json("Deleted Successfully");
   } catch (error) {
     console.error(error);
+    next(error);
+  }
+};
+
+export const album = async (req, res, next) => {
+  try {
+    if (!req.files || !req.files.imageFile) {
+      return res.status(400).json("No image file provided.");
+    }
+
+    const { title, releaseYear } = req.body;
+    const image = req.files.imageFile;
+    const imageUrl = await dataSetter(image);
+
+    const newAlbum = await Album.create({
+      title,
+      releaseYear,
+      imageUrl,
+    });
+
+    return res.status(200).json(newAlbum);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const delAlbum = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const album = await Album.findByIdAndDelete(id);
+    if (!album) {
+      return res.status(400).json("No Album Exists");
+    }
+    await Song.deleteMany({ albumId: id });
+    return res.status(200).json("Album Deleted Successfully");
+  } catch (error) {
     next(error);
   }
 };
