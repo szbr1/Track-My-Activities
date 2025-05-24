@@ -1,25 +1,9 @@
-import { Button } from "@/components/ui/button";
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import React from 'react'
 
-export default function Home() {
+function page({children}) {
   return (
-    <div className="min-h-screen w-full  bg-gray-500">
-      <SignedOut>
-        <SignInButton>
-          <Button>Sign In</Button>
-        </SignInButton>
-        <SignUpButton />
-      </SignedOut>
-      <SignedIn>
-        <UserButton>
-        </UserButton>
-      </SignedIn>
-    </div>
-  );
+     <div>hello</div>
+  )
 }
+
+export default page

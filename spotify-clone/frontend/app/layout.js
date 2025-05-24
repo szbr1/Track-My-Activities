@@ -1,5 +1,6 @@
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import AuthProvider from "@/components/AuthProvider";
 
 export const metadata = {
   title: "Create Next App",
@@ -7,12 +8,14 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
   return (
     <ClerkProvider>
       <html lang="en">
         <body>
-          <header className="flex justify-end items-center p-4 gap-4 h-16"></header>
+      <AuthProvider>
           {children}
+      </AuthProvider>
         </body>
       </html>
     </ClerkProvider>

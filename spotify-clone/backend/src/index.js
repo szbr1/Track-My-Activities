@@ -2,53 +2,57 @@ import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import connectionDB from './lib/db.js'
-import {clerkMiddleware} from '@clerk/express'
+import { clerkMiddleware } from '@clerk/express'
 import fileUpload from 'express-fileupload'
 import path from 'path'
 
-//routes
+// routes
 import usersRoutes from './routes/user.route.js'
 import songsRoutes from './routes/song.route.js'
 import albumRoutes from './routes/album.route.js'
 import adminRoutes from './routes/admin.route.js'
-
+import authRoutes from './routes/auth.route.js'
 
 const app = express()
-
 const __dirname = path.resolve()
 
 dotenv.config()
+
 app.use(express.json())
-app.use(clerkMiddleware())   // this give us req.auth 
+app.use(clerkMiddleware())
+
 let ORIGIN = process.env.ORIGIN
 app.use(cors({
     origin: ORIGIN,
     credentials: true
 }))
 
-
-app.use('/api/user', usersRoutes)
-app.use('/api/song', songsRoutes )
-app.use('/api/album', albumRoutes )
-app.use('/api/admin', adminRoutes)
-
-app.use((err,req,res,next)=>{
-    res.status(502).json({message: process.env.STATUS === 'DEVELOPMENT'? err.message: 'Some error! please try later' })
-})
-
 app.use(fileUpload({
     useTempFiles: true,
-    tempFileDir: path.join(__dirname, 'temp' ),
+    tempFileDir: path.join(__dirname, 'temp'),
     createParentPath: true,
-    limits: {fileSize: 10*1024*1024}
-    
+    limits: { fileSize: 10 * 1024 * 1024 }
 }))
+
+// routes
+app.use('/api/users', usersRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api/songs', songsRoutes)
+app.use('/api/albums', albumRoutes)
+app.use('/api/admins', adminRoutes)
+
+// error handler middleware (should be after routes)
+app.use((err, req, res, next) => {
+    res.status(502).json({
+        message: process.env.STATUS === 'DEVELOPMENT' ? err.message : 'Some error! please try later'
+    })
+})
 
 const PORT = process.env.PORT
 
-//Database connection
+// Database connection
 connectionDB()
 
-app.listen(PORT, ()=>{
+app.listen(PORT, () => {
     console.log(PORT)
 })
