@@ -9,7 +9,7 @@ import GoogleSignIn from './buttons/googleSignIn';
 import { Button } from './ui/button';
 
 
-function Navbar() {
+function Topbar() {
     const admin = true
 
   
@@ -39,4 +39,4 @@ function Navbar() {
   )
 }
 
-export default Navbar
+export default Topbar

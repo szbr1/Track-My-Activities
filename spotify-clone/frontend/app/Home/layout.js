@@ -1,29 +1,34 @@
 "use client"
-import LeftSidebar from "@/components/LeftSidebar";
+import LeftSidebar from "@/components/Sidebars/LeftSidebar";
+import RightSideBar from "@/components/Sidebars/RightSideBar";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import AuthProvider from "@/components/AuthProvider";
+
 
 export default function DashboardLayout({ children }) {
   return (
-    <div className='h-screen w-full '>
+    <AuthProvider>
+
+    <div className='h-screen w-full p-1 bg-black '>
     <ResizablePanelGroup direction="horizontal" className={"h-full"}>
-      <ResizablePanel defaultSize={13}  maxSize={30}>
+      <ResizablePanel  className="p-1" defaultSize={13}  maxSize={20}>
        {/* //this is left Sidebar */}
        <LeftSidebar />
       </ResizablePanel>
       <ResizableHandle  className={"border-2 border-black"}/>
 
-      <ResizablePanel defaultSize={50} minSize={40}>
+      <ResizablePanel className="rounded-md h-full overflow-hidden p-1" defaultSize={50} minSize={40}>
         {/* i called this gray  */}
         {children}
       </ResizablePanel>
-      <ResizableHandle  className={"border-2 border-black"} />
+      <ResizableHandle  className={"border-2 hidden md:block bg-black border-black  "} />
 
-      <ResizablePanel defaultSize={10} minSize={10} maxSize={20}>
-        <div  className='flex h-full bg-black'></div>
-        
+      <ResizablePanel className={'hidden md:block rounded-md h-full  p-1 '}defaultSize={13}  maxSize={20}>
+        <RightSideBar />
       </ResizablePanel>
 
     </ResizablePanelGroup>
   </div>
+    </AuthProvider>
   )
 }

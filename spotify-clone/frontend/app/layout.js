@@ -1,6 +1,5 @@
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import AuthProvider from "@/components/AuthProvider";
 
 export const metadata = {
   title: "Create Next App",
@@ -13,9 +12,7 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en">
         <body>
-      <AuthProvider>
           {children}
-      </AuthProvider>
         </body>
       </html>
     </ClerkProvider>
