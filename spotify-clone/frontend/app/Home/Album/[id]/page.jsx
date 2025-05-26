@@ -1,5 +1,7 @@
 "use client";
 import { useMusicStore } from "@/app/store/useMusicStore";
+import { usePlayerStore } from "@/app/store/usePlayerStore";
+import Audiosolo from "@/components/AudioHandler";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Play } from "lucide-react";
 import { Clock } from "lucide-react";
@@ -9,10 +11,17 @@ import React, { useEffect } from "react";
 function page({ params }) {
   const { id } = React.use(params);
   const { AlbumResult, fetchDataPlaylist } = useMusicStore();
+  const {isPlaying, currentSong, playAlbum} = usePlayerStore();
+
 
   useEffect(() => {
     fetchDataPlaylist(id);
   }, [AlbumResult]);
+
+  const handlePlayMusic = (index)=>{
+    if(!AlbumResult.songs) return;
+    playAlbum(AlbumResult.songs, index)
+  }
 
   const ConVersion = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -22,6 +31,8 @@ function page({ params }) {
 
   return (
     <div className="h-screen relative w-full bg-zinc-900 text-white md:p-3 lg:p-5 rounded-md overflow-hidden" >
+        <Audiosolo />
+
       {/* Gradiant  */}
       <div className=" absolute inset-0  h-3/6 bg-gradient-to-b from-violet-700/80  to-zinc-900/70  "></div>
       {/* -- */}
@@ -61,8 +72,10 @@ function page({ params }) {
 
           <ScrollArea className={"h-[22rem] lg:h-[18rem] md:h-[20rem] "}>
             {AlbumResult.songs.map((song, index) => {
+
+              const isThisSongPlaying = song._id === currentSong._id
               return (
-                <div className="w-full hover:bg-slate-300 rounded-b-sm  hover:text-black overflow-hidden cursor-pointer p-3 group gap-x-8 md:px-14 items-center  grid lg:grid-cols-[16px_1fr_150px_80px] grid-cols-[5px_1fr_150px_80px]   relative z-20" key={index+1}>
+                <div onClick={ handlePlayMusic(index)} className="w-full hover:bg-slate-300 rounded-b-sm  hover:text-black overflow-hidden cursor-pointer p-3 group gap-x-8 md:px-14 items-center  grid lg:grid-cols-[16px_1fr_150px_80px] grid-cols-[5px_1fr_150px_80px]   relative z-20" key={index+1}>
                   <div className="group-hover:hidden">{index + 1}</div>
                   <div className="hidden group-hover:block">
                     <Play className="size-3" />

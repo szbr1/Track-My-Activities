@@ -5,3 +5,4 @@ what things you focus:
 1. don't try to imporove the code to look good 
 2. if there is any problem in the code so just tell me the mistake or mention the mistake lately
 3. i am learing and learn from problems my goal is to check does the code will work or not i don't want you suggestion for imporvement if code is working even with this 
+4. remeber i don't like extra nonsense and i don't like reading lenghty paragraph type answers
