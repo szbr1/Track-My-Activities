@@ -14,7 +14,7 @@ export const useFeaturedStore = create((set)=>({
         try {
             set({isLoading: true})
             const result = await axiosInstance.get("/songs/featured")
-            console.log("FEATURED",result)
+            console.log("FEATURED",result.data)
             set({featuredSongs:result.data})
         } catch (error) {
             console.error(error)
@@ -26,7 +26,7 @@ export const useFeaturedStore = create((set)=>({
         try {
             set({isLoading: true})
             const result = await axiosInstance.get("/songs/trending")
-            console.log("TRENDING",result)
+            console.log("TRENDING",result.data)
             set({trendingSongs:result.data})
         } catch (error) {
             console.error(error)
@@ -38,7 +38,7 @@ export const useFeaturedStore = create((set)=>({
         try {
             set({isLoading: true})
             const result = await axiosInstance.get("/songs/made-for-you")
-            console.log("MADE FOR YOU",result)
+            console.log("MADE FOR YOU",result.data)
             set({madeForYou:result.data})
         } catch (error) {
             console.error(error)

@@ -19,7 +19,6 @@ const __dirname = path.resolve()
 dotenv.config()
 
 app.use(express.json())
-app.use(clerkMiddleware())
 
 let ORIGIN = process.env.ORIGIN
 app.use(cors({
@@ -27,6 +26,7 @@ app.use(cors({
     credentials: true
 }))
 
+app.use(clerkMiddleware())
 app.use(fileUpload({
     useTempFiles: true,
     tempFileDir: path.join(__dirname, 'temp'),

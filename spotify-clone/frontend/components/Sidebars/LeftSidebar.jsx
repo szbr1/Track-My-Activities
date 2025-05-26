@@ -21,7 +21,7 @@ function LeftSidebar() {
     },[])
   return (
     <div className='bg-black h-screen w-full'>
-        <div className={'bg-zinc-900 border-none  p-2 rounded-md mt-2  flex flex-col gap-1  '}>
+        <div className={'bg-zinc-900 border-none  p-2 rounded-md   flex flex-col gap-1  '}>
           <Button variant={'ghost'} className={" p-0 m-0  text-white cursor-pointer  hover:bg-zinc-600"}>
          <Link className='flex justify-start px-6  w-full md:px-2 items-center text-start ' href={'/Home'}><HomeIcon /> <span className='hidden md:block'>&nbsp;Home</span>
          </Link>   

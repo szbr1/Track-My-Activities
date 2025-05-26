@@ -1,16 +1,26 @@
-import { clerkClient } from "@clerk/express";
+import { clerkClient } from "@clerk/express"
 
-export const adminProtection = async (req,res,next)=>{
+export const adminProtection = async (req, res, next) => {
     try {
-       const loggedUser =await clerkClient.users.getUser(req.auth.userId)
-       const admin = process.env.CLERK_EMAIL === loggedUser.primaryEmailAddress.emailAddress
-
-       if(!admin){
-        return res.status(400).json(`you can't make changes `)
-       }
-
-       next()
+      
+      const {userId} = req.auth()
+       
+      if (!req.auth || !userId) {
+        return res.status(401).json({ message: 'Unauthorized' })
+      }
+      const loggedUser = await clerkClient.users.getUser(userId)
+      console.log("loggedUser:", loggedUser)
+  
+      const isAdmin = process.env.CLERK_EMAIL === loggedUser.primaryEmailAddress.emailAddress
+  
+      if (!isAdmin) {
+        return res.status(400).json({ message: "You can't make changes" })
+      }
+  
+      next()
     } catch (error) {
-        res.status(500).json('server error in authenctication')
+      console.error("adminProtection error:", error)
+      res.status(500).json('server error in authentication')
     }
-}
+  }
+  

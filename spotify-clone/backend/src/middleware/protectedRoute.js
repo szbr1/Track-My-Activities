@@ -1,7 +1,8 @@
 
 export const protectedRoute = (req,res,next)=>{
     try {
-    if(!req.auth.userId){
+        const {userId} = req.auth()
+    if(!userId){
         return res.status(400).json('Login requried')
     } 
     next()

@@ -14,16 +14,17 @@ export const featuredSongs = async (req,res,next)=>{
       const data =  await Song.aggregate([
             {$sample: {size: 6}},
             {$project: {
-                _id,
-                imageUrl,
-                title,
-                artist,
-                audioUrl,
+                _id: 1,
+                imageUrl: 1,
+                title: 1,
+                artist: 1,
+                audioUrl: 1,
             }}
         ])
 
         return res.status(200).json(data)
     } catch (error) {
+        console.error(error)
         next(error)
     }
 };
@@ -33,11 +34,11 @@ export const getOneFunctionData = async (req,res,next)=>{
       const data =  await Song.aggregate([
             {$sample: {size: 4}},
             {$project: {
-                _id,
-                imageUrl,
-                title,
-                artist,
-                audioUrl,
+                _id: 1,
+                imageUrl: 1,
+                title: 1,
+                artist: 1,
+                audioUrl: 1,
             }}
         ])
 
@@ -52,11 +53,11 @@ export const trending = async (req,res,next)=>{
       const data =  await Song.aggregate([
             {$sample: {size: 4}},
             {$project: {
-                _id,
-                imageUrl,
-                title,
-                artist,
-                audioUrl,
+                _id:1,
+                imageUrl:1,
+                title:1,
+                artist:1,
+                audioUrl:1,
             }}
         ])
 

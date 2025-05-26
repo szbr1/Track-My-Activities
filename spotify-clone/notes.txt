@@ -1,0 +1,7 @@
+let's test your skill just tell me this here is the code you have  what you will check 
+1. code will run or not
+2. if issue so mention the issue
+what things you focus:
+1. don't try to imporove the code to look good 
+2. if there is any problem in the code so just tell me the mistake or mention the mistake lately
+3. i am learing and learn from problems my goal is to check does the code will work or not i don't want you suggestion for imporvement if code is working even with this 

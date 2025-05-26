@@ -127,9 +127,9 @@ useEffect(()=>{
       <ScrollArea className={"h-[87%]  "}>
 
       {!signIn ? (
-        users.map((user)=>{
+        users.map((user, index)=>{
          return (
-          <div className=' flex items-center gap-3 mt-4 cursor-pointer hover:bg-gray-800 px-2 rounded-md'>
+          <div key={ index + 1} className=' flex items-center gap-3 mt-4 cursor-pointer hover:bg-gray-800 px-2 rounded-md'>
           <Avatar className={"size-9"}>
            <AvatarImage src={user.imageUrl}/>
            <AvatarFallback>{user.fullName[0]}</AvatarFallback>

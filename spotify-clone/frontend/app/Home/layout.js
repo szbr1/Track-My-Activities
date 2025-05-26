@@ -11,7 +11,7 @@ export default function DashboardLayout({ children }) {
 
     <div className='h-screen w-full p-1 bg-black '>
     <ResizablePanelGroup direction="horizontal" className={"h-full"}>
-      <ResizablePanel  className="p-1" defaultSize={13}  maxSize={20}>
+      <ResizablePanel  className="p-1" defaultSize={13} minSize={13}  maxSize={20}>
        {/* //this is left Sidebar */}
        <LeftSidebar />
       </ResizablePanel>
