@@ -1,17 +1,20 @@
 "use client";
-import { useMusicStore } from "@/app/store/useMusicStore";
-import { usePlayerStore } from "@/app/store/usePlayerStore";
-import Audiosolo from "@/components/AudioHandler";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
+import { ScrollArea } from "../../../components/ui/scroll-area";
+import { useMusicStore } from "../../../store/useMusicStore";
+import { usePlayerStore } from "../../../store/usePlayerStore";
 import { Play } from "lucide-react";
 import { Clock } from "lucide-react";
 import { DotIcon } from "lucide-react";
 import React, { useEffect } from "react";
+import { CiMusicNote1 } from "react-icons/ci";
+import { IoIosPause } from "react-icons/io";
+
 
 function page({ params }) {
   const { id } = React.use(params);
   const { AlbumResult, fetchDataPlaylist } = useMusicStore();
-  const {isPlaying, currentSong, playAlbum} = usePlayerStore();
+  const {isPlaying, currentSong, PlayAlbum,togglePlay} = usePlayerStore();
 
 
   useEffect(() => {
@@ -20,7 +23,14 @@ function page({ params }) {
 
   const handlePlayMusic = (index)=>{
     if(!AlbumResult.songs) return;
-    playAlbum(AlbumResult.songs, index)
+    PlayAlbum(AlbumResult.songs, index)
+  }
+   
+  const AlbumPlay = ()=>{
+// if(!AlbumResult.songs) return;
+    const checkSongAuth = AlbumResult?.songs.some((song)=> song?._id === currentSong?._id) 
+    if(checkSongAuth) togglePlay()
+    else PlayAlbum(AlbumResult.songs, 0)
   }
 
   const ConVersion = (seconds) => {
@@ -31,7 +41,6 @@ function page({ params }) {
 
   return (
     <div className="h-screen relative w-full bg-zinc-900 text-white md:p-3 lg:p-5 rounded-md overflow-hidden" >
-        <Audiosolo />
 
       {/* Gradiant  */}
       <div className=" absolute inset-0  h-3/6 bg-gradient-to-b from-violet-700/80  to-zinc-900/70  "></div>
@@ -59,13 +68,16 @@ function page({ params }) {
               </div>
             </div>
           </div>
+             
+          <div onClick={()=>AlbumPlay()} className="size-14 md:size-14 lg:size-19  mt-3 lg:mt-5 p-5 rounded-full bg-green-700 hover:bg-green-500 relative z-20 flex justify-center items-center">
+            {isPlaying && AlbumResult.songs.some(song=> song?._id === currentSong?._id)?
+            <IoIosPause className="size-5 text-black" />  
+            :  <Play className="size-5 text-black" />}
 
-          <div className="size-14 md:size-14 lg:size-19  mt-3 lg:mt-5 p-5 rounded-full bg-green-700 hover:bg-green-500 relative z-20 flex justify-center items-center">
-            <Play className="size-5 text-black" />
           </div>
           {/* songs  */}
 
-          <div className="w-full gap-8  bg-slate-500  grid lg:grid-cols-[16px_1fr_150px_80px] p-3 gap-x-8 grid-cols-[5px_1fr_200px_80px] relative z-20 md:px-14">
+          <div className="w-full gap-8  border-b border-zinc-600  grid lg:grid-cols-[16px_1fr_150px_80px] p-3 gap-x-8 grid-cols-[5px_1fr_200px_80px] relative z-20 md:px-14">
             <div>#</div> <div>Title</div> <div className="ml-24 md:ml-0  truncate">Release Date</div>{" "}
             <Clock className="size-4 mt-1 hidden md:block" />
           </div>
@@ -73,13 +85,20 @@ function page({ params }) {
           <ScrollArea className={"h-[22rem] lg:h-[18rem] md:h-[20rem] "}>
             {AlbumResult.songs.map((song, index) => {
 
-              const isThisSongPlaying = song._id === currentSong._id
+              const isThisSongPlaying = song._id === currentSong?._id
               return (
-                <div onClick={ handlePlayMusic(index)} className="w-full hover:bg-slate-300 rounded-b-sm  hover:text-black overflow-hidden cursor-pointer p-3 group gap-x-8 md:px-14 items-center  grid lg:grid-cols-[16px_1fr_150px_80px] grid-cols-[5px_1fr_150px_80px]   relative z-20" key={index+1}>
-                  <div className="group-hover:hidden">{index + 1}</div>
-                  <div className="hidden group-hover:block">
-                    <Play className="size-3" />
-                  </div>
+                <div onClick={ ()=>handlePlayMusic(index)} className="w-full hover:bg-zinc-700/50  rounded-sm  overflow-hidden cursor-pointer p-3 group gap-x-8 md:px-14 items-center  grid lg:grid-cols-[16px_1fr_150px_80px] grid-cols-[5px_1fr_150px_80px]   relative z-20" key={index+1}>
+                  {
+                  isThisSongPlaying ? <CiMusicNote1  className="text-green-500 "/> : (
+                    <>
+                      <div className="group-hover:hidden">{index + 1}</div>
+                      <div className="hidden group-hover:block">
+                        <Play className="size-4" />
+                      </div>
+                    </>
+                  )
+                  }
+
                   <div className="flex items-center">
                     <img src={song.imageUrl} className="size-12 mr-2" alt="" />{" "}
                     <div className="flex flex-col ">

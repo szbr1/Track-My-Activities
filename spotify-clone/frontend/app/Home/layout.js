@@ -1,16 +1,20 @@
 "use client"
-import LeftSidebar from "@/components/Sidebars/LeftSidebar";
-import RightSideBar from "@/components/Sidebars/RightSideBar";
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
-import AuthProvider from "@/components/AuthProvider";
+
+import Audiosolo from "../components/AudioHandler";
+// import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@app/components/ui/resizable";
+import AuthProvider from "../components/AuthProvider";
+import LeftSidebar from "../components/Sidebars/LeftSidebar";
+import RightSideBar from "../components/Sidebars/RightSideBar";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../components/ui/resizable";
 
 
 export default function DashboardLayout({ children }) {
   return (
     <AuthProvider>
-
+      
     <div className='h-screen w-full p-1 bg-black '>
     <ResizablePanelGroup direction="horizontal" className={"h-full"}>
+      <Audiosolo />
       <ResizablePanel  className="p-1" defaultSize={13} minSize={13}  maxSize={20}>
        {/* //this is left Sidebar */}
        <LeftSidebar />

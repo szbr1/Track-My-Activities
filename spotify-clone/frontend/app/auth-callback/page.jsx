@@ -6,7 +6,7 @@ import {
     Card,
     CardContent,
     CardDescription,
-  } from "@/components/ui/card"
+  } from "@/app/components/ui/card"
 import { Loader } from "lucide-react";
 import { LuLoaderCircle } from "react-icons/lu";
 import { axiosInstance } from "@/lib/axios";

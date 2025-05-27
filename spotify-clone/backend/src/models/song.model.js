@@ -13,6 +13,10 @@ const songSchema = new mongoose.Schema({
         type: String,
         required: true
      },
+     audioUrl: {
+      type: String,
+      required: true
+     },
      albumId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Album'

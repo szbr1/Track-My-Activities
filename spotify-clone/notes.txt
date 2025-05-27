@@ -6,3 +6,38 @@ what things you focus:
 2. if there is any problem in the code so just tell me the mistake or mention the mistake lately
 3. i am learing and learn from problems my goal is to check does the code will work or not i don't want you suggestion for imporvement if code is working even with this 
 4. remeber i don't like extra nonsense and i don't like reading lenghty paragraph type answers
+
+
+🛳️🛳️🛳️🛳️🛳️🛳️
+
+
+You have this code.
+
+Your job:
+
+Check if the code will run or not.
+
+If the code runs but causes issues at any point (like a crash, error, or wrong behavior), clearly mention what the issue is and where exactly it will stop me — give a practical example like "if you click the search icon, it will crash because..."
+
+If there’s a problem, mention the exact mistake too.
+
+Important focus:
+
+Don’t try to improve the code’s style, structure, or readability.
+
+If the code works without breaking, no suggestions or fixes needed.
+
+If there’s a problem or bug, mention it clearly — no improvements or code rewriting.
+
+I’m learning by spotting mistakes, so only help me catch errors.
+
+No extra explanations, no long paragraphs.
+
+Answer format should be:
+
+Will it run: Yes / No
+
+If no, issue is: (mention issue)
+
+If yes but causes issue later: (explain what issue and where it will happen with a practical example)
+

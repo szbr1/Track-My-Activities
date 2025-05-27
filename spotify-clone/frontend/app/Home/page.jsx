@@ -1,17 +1,20 @@
 "use client"
-import Topbar from '@/components/Topbar'
-import React, { useEffect } from 'react'
-import { useFeaturedStore } from '../store/useFeaturedStore'
-import Featured from '@/components/Layout/Featured'
-import MadeForYou from '@/components/Layout/Made-For-You'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { useIsAdmin } from '../store/useAuthStore'
-import FeaturedGridSkeleton from '@/components/skeletons/FeaturedGridSkeleton'
+import { ScrollArea } from "@radix-ui/react-scroll-area"
+import Topbar from "../components/Topbar"
+import Featured from "../components/Layout/Featured"
+import MadeForYou from "../components/Layout/Made-For-You"
+import { useIsAdmin } from "../store/useAuthStore"
+import { useFeaturedStore } from "../store/useFeaturedStore"
+import { useEffect } from "react"
+
+
+
 
 function page() {
   const isAdmin = useIsAdmin()
 
   const {trendingSongs,featuredSongs,madeForYou,isLoading  ,fetchFeaturedSongs,fetchTrendingSongs,fetchMadeForYouSongs} = useFeaturedStore()
+
 
   useEffect(()=>{
     fetchFeaturedSongs()
@@ -20,13 +23,15 @@ function page() {
 
 
   },[])
+
+
   
   return (
     <div className='h-full w-full'>
       <Topbar />
         
         <div className='h-full w-full '>
-          <ScrollArea className='h-full '>
+          <ScrollArea className='h-[22rem] '>
 
          <div className='bg-gradient-to-b from-zinc-950 to-zinc-800 px-5 py-2 relative z-10'>
 
@@ -47,7 +52,7 @@ function page() {
           {
             madeForYou.map((song , index)=>{
               return(
-                <MadeForYou key={index + 1} song={song}/>
+                <MadeForYou  song={song}/>
               )
             })
           }
@@ -60,7 +65,7 @@ function page() {
           {
             trendingSongs.map((song , index)=>{
               return(
-                <MadeForYou key={index + 1} song={song}/>
+                <MadeForYou  song={song}/>
               )
             })
           }

@@ -7,7 +7,7 @@ import { SignInButton, SignOutButton, useAuth, UserButton, useSignIn } from '@cl
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import GoogleSignIn from './buttons/googleSignIn';
 import Link from 'next/link';
-import { useIsAdmin } from '@/app/store/useAuthStore';
+import { useIsAdmin } from '../store/useAuthStore';
 
 
 function Topbar() {

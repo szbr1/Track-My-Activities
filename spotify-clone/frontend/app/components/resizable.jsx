@@ -5,7 +5,7 @@ import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "@/components/ui/resizable";
+} from "@/app/components/ui/resizable";
 
 export function ResizeAble() {
   const [size, setSize] = useState(50); // Default size (percentage)
