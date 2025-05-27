@@ -1,11 +1,11 @@
 "use client"
-import { ScrollArea } from "@radix-ui/react-scroll-area"
 import Topbar from "../components/Topbar"
 import Featured from "../components/Layout/Featured"
 import MadeForYou from "../components/Layout/Made-For-You"
 import { useIsAdmin } from "../store/useAuthStore"
 import { useFeaturedStore } from "../store/useFeaturedStore"
 import { useEffect } from "react"
+import { ScrollArea } from "../components/ui/scroll-area"
 
 
 
@@ -27,11 +27,11 @@ function page() {
 
   
   return (
-    <div className='h-full w-full'>
+    <div className='h-full w-full ' onContextMenu={e => e.preventDefault()}>
       <Topbar />
         
         <div className='h-full w-full '>
-          <ScrollArea className='h-[22rem] '>
+          <ScrollArea className='h-full '>
 
          <div className='bg-gradient-to-b from-zinc-950 to-zinc-800 px-5 py-2 relative z-10'>
 
@@ -47,7 +47,7 @@ function page() {
         </div>
 
         {/* made for you songs  */}
-          {isAdmin ? <div className='text-3xl text-white py-8 font-bold'>Made For You</div>: 'Not an admin'}
+          <div className='text-3xl text-white py-8 font-bold'>Made For You</div>
         <div className='flex flex-wrap gap-3  justify-center md:justify-between'>
           {
             madeForYou.map((song , index)=>{

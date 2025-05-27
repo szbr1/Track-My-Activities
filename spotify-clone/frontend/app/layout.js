@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body>
+        <body oncontextmenu="return false">
           {children}
         </body>
       </html>
