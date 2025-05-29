@@ -28,6 +28,6 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "app/components/Layout/PlaybackControls.jsx"  ],
   "exclude": ["node_modules"]
 }

@@ -11,21 +11,26 @@ import PlaylistSkeleton from '../skeletons/PlaylistSkeleton';
 import { ScrollArea } from '../ui/scroll-area';
 import { useMusicStore } from '@/app/store/useMusicStore';
 import { Dot } from 'lucide-react';
+import { usePlayerStore } from '@/app/store/usePlayerStore';
 
 function LeftSidebar() {
-    const {isSignedIn} = useAuth()
+    const {isSignedIn, userId} = useAuth()
     const {isLoading, albums, fetchplaylist} = useMusicStore()
+    const {currentSong} = usePlayerStore()
+
 
     useEffect(()=>{
         fetchplaylist()
     },[])
   return (
-    <div className='bg-black h-screen w-full'>
+    <div className='bg-black h-screen rounded-md overflow-hidden w-full'>
         <div className={'bg-zinc-900 border-none  p-2 rounded-md   flex flex-col gap-1  '}>
-          <Button variant={'ghost'} className={" p-0 m-0  text-white cursor-pointer  hover:bg-zinc-600"}>
-         <Link className='flex justify-start px-6  w-full md:px-2 items-center text-start ' href={'/Home'}><HomeIcon /> <span className='hidden md:block'>&nbsp;Home</span>
-         </Link>   
+          <Link href={'/Home'} className='w-full' >
+          <Button variant={'ghost'} className={" p-0 m-0  text-white cursor-pointer w-full  hover:bg-zinc-600"}>
+         <div className='flex justify-start px-6  w-full md:px-2 items-center text-start '><HomeIcon /> <span className='hidden md:block'>&nbsp;Home</span>
+         </div>   
           </Button>
+          </Link>
            { isSignedIn ? 
                <Button variant={'ghost'} className={" p-0 m-0  text-white cursor-pointer  hover:bg-zinc-600"}>
          <Link className='flex justify-start w-full px-6 md:px-2 items-center text-start ' href={'/Songs'}><BiMessageSquareDetail /><span className='hidden md:block'>&nbsp;Messages</span>
@@ -36,8 +41,9 @@ function LeftSidebar() {
 
 
         </div>
+        <div className='h-full w-full overflow-hidden rounded-md'>
 
-        <div className={"bg-zinc-900 rounded-md mt-3 h-8/10 p-2"}>
+        <div className={`bg-zinc-800 rounded-md mt-3 ${currentSong ? "h-[72%]": "h-[83%]"}  w-full  p-2`}>
           <div className='flex md:px-3  text-white justify-start items-center pb-4 md:py-0 '>
             <IoLibrarySharp className='hidden md:block' /> <span className='font-medium'>&nbsp; Playlists</span>
             <br />
@@ -60,6 +66,7 @@ function LeftSidebar() {
                 )
                }
             </ScrollArea>
+        </div>
         </div>
     </div>
   )

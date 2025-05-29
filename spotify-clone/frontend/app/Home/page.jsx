@@ -27,7 +27,7 @@ function page() {
 
   
   return (
-    <div className='h-full w-full ' onContextMenu={e => e.preventDefault()}>
+    <div className='h-full rounded-md overflow-hidden w-full  ' >
       <Topbar />
         
         <div className='h-full w-full '>

@@ -10,6 +10,12 @@ import React, { useEffect } from "react";
 import { CiMusicNote1 } from "react-icons/ci";
 import { IoIosPause } from "react-icons/io";
 
+export const ConVersion = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  const remaningSeconds = seconds % 60;
+  return `${minutes}:${remaningSeconds.toString().padStart(2, "0")}`;
+};
+
 
 function page({ params }) {
   const { id } = React.use(params);
@@ -33,14 +39,10 @@ function page({ params }) {
     else PlayAlbum(AlbumResult.songs, 0)
   }
 
-  const ConVersion = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remaningSeconds = seconds % 60;
-    return `${minutes}:${remaningSeconds.toString().padStart(2, "0")}`;
-  };
+  
 
   return (
-    <div className="h-screen relative w-full bg-zinc-900 text-white md:p-3 lg:p-5 rounded-md overflow-hidden" >
+    <div className="h-full relative w-full bg-zinc-900 text-white md:p-3 lg:p-5 rounded-md overflow-hidden" >
 
       {/* Gradiant  */}
       <div className=" absolute inset-0  h-3/6 bg-gradient-to-b from-violet-700/80  to-zinc-900/70  "></div>
@@ -69,7 +71,7 @@ function page({ params }) {
             </div>
           </div>
              
-          <div onClick={()=>AlbumPlay()} className="size-14 md:size-14 lg:size-19  mt-3 lg:mt-5 p-5 rounded-full bg-green-700 hover:bg-green-500 relative z-20 flex justify-center items-center">
+          <div onClick={()=>AlbumPlay()} className="size-14 md:size-14 lg:size-14 hover:size-15 hover:cursor-pointer  mt-3 lg:mt-5 p-5 rounded-full bg-green-700 hover:bg-green-400 relative ml-5 z-20 flex justify-center items-center">
             {isPlaying && AlbumResult.songs.some(song=> song?._id === currentSong?._id)?
             <IoIosPause className="size-5 text-black" />  
             :  <Play className="size-5 text-black" />}
@@ -77,12 +79,12 @@ function page({ params }) {
           </div>
           {/* songs  */}
 
-          <div className="w-full gap-8  border-b border-zinc-600  grid lg:grid-cols-[16px_1fr_150px_80px] p-3 gap-x-8 grid-cols-[5px_1fr_200px_80px] relative z-20 md:px-14">
+          <div className="w-full gap- 5 border-b border-zinc-600  grid lg:grid-cols-[16px_1fr_150px_80px] p-3 gap-x-8 grid-cols-[5px_1fr_200px_80px] relative z-20 md:px-14">
             <div>#</div> <div>Title</div> <div className="ml-24 md:ml-0  truncate">Release Date</div>{" "}
             <Clock className="size-4 mt-1 hidden md:block" />
           </div>
 
-          <ScrollArea className={"h-[22rem] lg:h-[18rem] md:h-[20rem] "}>
+          <ScrollArea className={`h-[13rem]  `}>
             {AlbumResult.songs.map((song, index) => {
 
               const isThisSongPlaying = song._id === currentSong?._id

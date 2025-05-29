@@ -5,6 +5,8 @@ export const usePlayerStore = create((set, get) => ({
   currentSong: null,
   currentIndex: -1,
   queue: [],
+  duration: null,
+  currentTime: null,
 
   initializaAlbum: (songs) => {
     try {
@@ -98,5 +100,24 @@ export const usePlayerStore = create((set, get) => ({
       console.error("Error in togglePlay:", error);
     }
   },
+  
+  setDuration : (sduration)=>{
+    try {
+        set({duration: sduration})
+    } catch (error) {
+      console.error({setDuration: error})
+    }
+  },
+
+  setCurrentTime: (stime) =>{
+    try {
+
+     set({currentTime: stime})
+
+    } catch (error) {
+      console.error({setCurrentTime: stime})
+    }
+  }
+
 
 }));
