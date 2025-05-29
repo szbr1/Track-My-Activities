@@ -3,6 +3,7 @@
 import Audiosolo from "../components/AudioHandler";
 // import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@app/components/ui/resizable";
 import AuthProvider from "../components/AuthProvider";
+import Footer from "../components/Layout/footer";
 import LeftSidebar from "../components/Sidebars/LeftSidebar";
 import RightSideBar from "../components/Sidebars/RightSideBar";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../components/ui/resizable";
@@ -32,6 +33,7 @@ export default function DashboardLayout({ children }) {
       </ResizablePanel>
 
     </ResizablePanelGroup>
+    <Footer />
   </div>
     </AuthProvider>
   )
