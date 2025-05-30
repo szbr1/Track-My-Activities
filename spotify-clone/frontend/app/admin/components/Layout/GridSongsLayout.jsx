@@ -9,7 +9,7 @@ import { FaBucket } from 'react-icons/fa6'
 
 function GridSongsLayout() {
 
-    const {songs} = useMusicStore() 
+    const {songs, deleteSong} = useMusicStore() 
   return (
     <div className='w-full h-full flex flex-col gap-10'>
      <div className='grid grid-cols-[2fr_2fr_2fr_1fr] bg-slate-900/10 text-zinc-300'>
@@ -29,7 +29,7 @@ function GridSongsLayout() {
                 <img src={song.imageUrl} className=' truncate size-14 rounded-md' alt="song.title" />&nbsp; &nbsp;{song.title}</span>
             <span className='flex items-center'>{song.artist}</span>
             <span className='flex items-center gap-1'><Calendar  className='size-4'/>{song.createdAt.split('T')[0]}</span>
-            <span className='flex items-center ml-1'><Trash className='text-red-500 cursor-pointer' /></span>
+            <span onClick={()=>deleteSong(song._id)} className='flex items-center ml-1'><Trash className='text-red-500 cursor-pointer' /></span>
             </>
         })}
      </div>

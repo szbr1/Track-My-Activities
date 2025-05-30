@@ -68,6 +68,18 @@ export const useMusicStore = create((set,get)=>({
         }finally{
             {isLoading:false}
         }
+    },
+    deleteSong: async (song)=>{
+        try {
+            set({isLoading: true})
+            const result = await axiosInstance.delete(`/admins/songs/${song}`)
+            console.log({DeleteSong: result.data})
+
+        } catch (error) {
+            console.error({deleteSongError: error})
+        }finally{
+            set({isLoading:false})
+        }
     }
 
     
