@@ -12,6 +12,7 @@ import songsRoutes from './routes/song.route.js'
 import albumRoutes from './routes/album.route.js'
 import adminRoutes from './routes/admin.route.js'
 import authRoutes from './routes/auth.route.js'
+import statusRoutes from './routes/status.route.js'
 
 const app = express()
 const __dirname = path.resolve()
@@ -40,6 +41,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/songs', songsRoutes)
 app.use('/api/albums', albumRoutes)
 app.use('/api/admins', adminRoutes)
+app.use("/api/status", statusRoutes)
 
 // error handler middleware (should be after routes)
 app.use((err, req, res, next) => {

@@ -22,7 +22,7 @@ function Topbar() {
            <FaSpotify className='size-6 text-green-500' /> &nbsp;Spotify
         </Link>
         {
-            admin && userId ? <Link href={'/Home/admin'}  className='ml-96 absolute right-[14%]  top-2 bg-black py-1 cursor-pointer rouded-md px-4 flex justify-center items-center text-white'>
+            admin && userId ? <Link href={'/admin'}  className='ml-96 absolute right-[14%]  top-2 bg-black py-1 cursor-pointer rouded-md px-4 flex justify-center items-center text-white'>
                  <MdOutlineDashboard className='size-5  text-white'/> Dashboared
             </Link> : null
         }

@@ -2,7 +2,7 @@ import Album from "../models/album.model.js";
 import Song from "../models/song.model.js";
 import User from "../models/user.model.js";
 
-export const status = async (req, res, next) => {
+export const AllStatuses = async (req, res, next) => {
   try {
     const totalSongs = await Song.countDocuments();
     const totalAlbum = await Album.countDocuments();

@@ -1,9 +1,16 @@
 import { axiosInstance } from "@/lib/axios";
 import { create } from "zustand";
+import Statuses from "../admin/components/Layout/Statuses";
 
 export const useMusicStore = create((set,get)=>({
     albums: [],
     songs: [],
+    status: {
+        totalArtists: [],
+        totalAlbum: 0,
+        totalSongs: 0,
+        totalUsers: 0
+    },
     isLoading: false,
     isPlaylistLoading: false,
 
@@ -33,5 +40,36 @@ export const useMusicStore = create((set,get)=>({
     }finally{
         set({isPlaylistLoading: false})
     }
+    },
+
+    fetchSongs: async ()=>{
+        try {
+         set({isLoading:true})   
+           
+
+        const result = await  axiosInstance.get("/songs")
+        console.log({AllSongs: result.data})
+        set({songs: result.data})
+          } catch (error) {
+            console.error(error)
+    }finally{
+        set({isLoading: false})
     }
+    },
+
+    fetchStatuses: async ()=>{
+        try {
+            set({isLoading:true})
+            const result = await axiosInstance.get("/status")
+            console.log({Statuses: result.data})
+            set({status: result.data})
+        } catch (error) {
+            console.error({StatusError: error})
+        }finally{
+            {isLoading:false}
+        }
+    }
+
+    
+
 }))
