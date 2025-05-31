@@ -29,10 +29,11 @@ app.use(cors({
 
 app.use(clerkMiddleware())
 app.use(fileUpload({
-    useTempFiles: false, // Disable temp files
-    limits: { fileSize: 10 * 1024 * 1024 },
-    debug: true
-}));
+    useTempFiles: true,
+    tempFileDir: path.join(__dirname, 'temp'),
+    createParentPath: true,
+    limits: { fileSize: 10 * 1024 * 1024 }
+}))
 
 // routes
 app.use('/api/users', usersRoutes)

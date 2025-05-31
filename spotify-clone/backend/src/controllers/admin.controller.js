@@ -1,56 +1,39 @@
-import Song from "../models/song.model.js";
-import Album from "../models/album.model.js";
 import cloudinary from "../lib/cloudinary.js";
+import Album from "../models/album.model.js";
+import Song from "../models/song.model.js";
 
-// Improved cloudinary upload function
-async function uploadToCloudinary(file) {
+
+// cloudinary function 
+async function dataSetter(file) {
   try {
-    // Use file.data buffer directly instead of temp file
-    const result = await new Promise((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        { 
-          resource_type: file.mimetype.startsWith('audio/') ? 'auto' : 'image',
-          public_id: `${Date.now()}-${file.name.replace(/\.[^/.]+$/, '')}`
-        },
-        (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
-        }
-      );
-      
-      // Write the buffer directly to Cloudinary
-      uploadStream.end(file.data);
+    const data = await cloudinary.uploader.upload(file, {
+      resource_type: "auto",
     });
-    
-    return result.secure_url;
+    return data.secure_url;
   } catch (error) {
-    console.error('Cloudinary upload error:', error);
-    throw new Error('Failed to upload file to Cloudinary');
+    console.error({ detailError: error });
+    throw new Error("Cloudinary upload failed");
   }
 }
 
+
+
+//! Routes 
+
 export const song = async (req, res, next) => {
   try {
-    // Check if files exist
     if (!req.files || !req.files.audioFile || !req.files.imageFile) {
-      return res.status(400).json({ error: 'Both audio and image files are required' });
+      return res.status(400).json("Please upload all files");
     }
+    const { artist, title, albumId,duration } = req.body;
 
-    const { artist, title, albumId, duration } = req.body;
+    const imageFile = req.files.imageFile;
+    const audioFile = req.files.audioFile;
 
-    // Validate required fields
-    if (!artist || !title || !duration) {
-      return res.status(400).json({ error: 'Artist, title, and duration are required' });
-    }
+    const imageUrl = await dataSetter(imageFile.tempFilePath);
+    const audioUrl = await dataSetter(audioFile.tempFilePath);
 
-    // Upload files to Cloudinary
-    const [imageUrl, audioUrl] = await Promise.all([
-      uploadToCloudinary(req.files.imageFile),
-      uploadToCloudinary(req.files.audioFile)
-    ]);
-
-    // Create the song
-    const newSong = await Song.create({
+    const newStore = await Song.create({
       artist,
       title,
       imageUrl,
@@ -59,26 +42,23 @@ export const song = async (req, res, next) => {
       albumId: albumId || null,
     });
 
-    // If albumId was provided, update the album
     if (albumId) {
       try {
         await Album.findByIdAndUpdate(albumId, {
-          $push: { songs: newSong._id },
+          $push: { songs: newStore._id },
         });
       } catch (error) {
-        console.error('Album update error:', error);
-        // Don't fail the whole operation if album update fails
+        res.status(400).json("mongodb error");
+        next(error);
       }
     }
 
-    return res.status(201).json(newSong);
+    return res.status(200).json(newStore);
   } catch (error) {
-    console.error('Song creation error:', error);
-    res.status(500).json({ error: error.message || 'Failed to create song' });
+    console.error({ detailError: error });
+    res.status(500).json("Server Error.");
   }
 };
-
-// ... rest of your controller code remains the same ...
 
 export const delteSong = async (req, res, next) => {
   try {
@@ -107,14 +87,16 @@ export const album = async (req, res, next) => {
       return res.status(400).json("No image file provided.");
     }
 
-    const { title, releaseYear } = req.body;
+    const { title, releaseYear,artist } = req.body;
     const image = req.files.imageFile;
-    const imageUrl = await dataSetter(image);
+    const imageUrl = await dataSetter(image.tempFilePath);
 
     const newAlbum = await Album.create({
       title,
       releaseYear,
+      artist,
       imageUrl,
+
     });
 
     return res.status(200).json(newAlbum);

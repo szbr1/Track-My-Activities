@@ -10,7 +10,7 @@ import {
 
 
 const route = express.Router();
-route.use(protectedRoute, adminProtection);
+// route.use(protectedRoute, adminProtection);
 
 route.post("/songs", song);
 route.delete("/songs/:id", delteSong);

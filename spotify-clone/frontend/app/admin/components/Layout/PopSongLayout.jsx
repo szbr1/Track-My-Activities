@@ -65,6 +65,7 @@ try {
     formData.append("audioFile", file.audio)
     formData.append("imageFile", file.image)
 
+
     await  axiosInstance.post("/admins/songs" ,formData,{
       headers: {
         "Content-Type": "multipart/form-data",
@@ -85,6 +86,7 @@ try {
     toast.success("Song Uploaded Successfully")
   } catch (error) {
      toast.error(error?.message || "Upload failed");
+     console.error(error)
   } finally{
     setIsLoading(false)
 
