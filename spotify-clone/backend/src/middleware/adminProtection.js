@@ -9,7 +9,6 @@ export const adminProtection = async (req, res, next) => {
         return res.status(401).json({ message: 'Unauthorized' })
       }
       const loggedUser = await clerkClient.users.getUser(userId)
-      console.log("loggedUser:", loggedUser)
   
       const isAdmin = process.env.CLERK_EMAIL === loggedUser.primaryEmailAddress.emailAddress
   

@@ -1,63 +1,84 @@
-import { json } from "express";
-import cloudinary from "../lib/cloudinary.js";
-import Album from "../models/album.model.js";
 import Song from "../models/song.model.js";
+import Album from "../models/album.model.js";
+import cloudinary from "../lib/cloudinary.js";
 
-
-// cloudinary function 
-async function dataSetter(file) {
+// Improved cloudinary upload function
+async function uploadToCloudinary(file) {
   try {
-    const data = await cloudinary.uploader.upload(file, {
-      resource_type: "auto",
+    // Use file.data buffer directly instead of temp file
+    const result = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { 
+          resource_type: file.mimetype.startsWith('audio/') ? 'auto' : 'image',
+          public_id: `${Date.now()}-${file.name.replace(/\.[^/.]+$/, '')}`
+        },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+      
+      // Write the buffer directly to Cloudinary
+      uploadStream.end(file.data);
     });
-    return data.secure_url;
+    
+    return result.secure_url;
   } catch (error) {
-    console.error({ detailError: error });
+    console.error('Cloudinary upload error:', error);
+    throw new Error('Failed to upload file to Cloudinary');
   }
 }
 
-
-
-//! Routes 
-
 export const song = async (req, res, next) => {
   try {
+    // Check if files exist
     if (!req.files || !req.files.audioFile || !req.files.imageFile) {
-      return res.status(400).json("Please upload all files");
+      return res.status(400).json({ error: 'Both audio and image files are required' });
     }
-    const { artist, title, albumId } = req.body;
 
-    const imageFile = req.files.imageFile;
-    const audioFile = req.files.audioFile;
+    const { artist, title, albumId, duration } = req.body;
 
-    const imageUrl = await dataSetter(imageFile);
-    const audioUrl = await dataSetter(audioFile);
+    // Validate required fields
+    if (!artist || !title || !duration) {
+      return res.status(400).json({ error: 'Artist, title, and duration are required' });
+    }
 
-    const newStore = await Song.create({
+    // Upload files to Cloudinary
+    const [imageUrl, audioUrl] = await Promise.all([
+      uploadToCloudinary(req.files.imageFile),
+      uploadToCloudinary(req.files.audioFile)
+    ]);
+
+    // Create the song
+    const newSong = await Song.create({
       artist,
       title,
       imageUrl,
       audioUrl,
+      duration,
       albumId: albumId || null,
     });
 
+    // If albumId was provided, update the album
     if (albumId) {
       try {
         await Album.findByIdAndUpdate(albumId, {
-          $push: { songs: newStore._id },
+          $push: { songs: newSong._id },
         });
       } catch (error) {
-        res.status(400).json("mongodb error");
-        next(error);
+        console.error('Album update error:', error);
+        // Don't fail the whole operation if album update fails
       }
     }
 
-    return res.status(200).json(newStore);
+    return res.status(201).json(newSong);
   } catch (error) {
-    console.error({ detailError: error });
-    res.status(500).json("Server Error.");
+    console.error('Song creation error:', error);
+    res.status(500).json({ error: error.message || 'Failed to create song' });
   }
 };
+
+// ... rest of your controller code remains the same ...
 
 export const delteSong = async (req, res, next) => {
   try {
