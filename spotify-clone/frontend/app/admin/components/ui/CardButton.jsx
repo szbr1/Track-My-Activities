@@ -10,7 +10,7 @@ import { IoLibrary } from 'react-icons/io5'
 function CardButton() {
 
     // states from zustand 
-    const {fetchSongs,fetchStatuses,status,songs} =  useMusicStore()
+    const {fetchStatuses,status,songs} =  useMusicStore()
 
 
 
@@ -18,9 +18,8 @@ function CardButton() {
   
       // call states 
       fetchStatuses()
-      fetchSongs()
       
-    },[])
+    },[ ])
 
 
   return (
@@ -36,7 +35,7 @@ function CardButton() {
 
         <h3 className='text-3xl font-bold'>
           
-        {status.totalSongs}
+        {status?.totalSongs}
           
           </h3>
       </div>
@@ -54,7 +53,7 @@ function CardButton() {
  
         <h3 className='text-3xl font-bold'>
           
-  {status.totalAlbum}
+  {status?.totalAlbum}
           
           </h3>
       </div>
@@ -89,7 +88,7 @@ function CardButton() {
 
         <h3 className='text-3xl font-bold'>
           
-        {status.totalUsers}
+        {status?.totalUsers}
 
           
           </h3>

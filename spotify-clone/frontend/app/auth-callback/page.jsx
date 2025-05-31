@@ -11,6 +11,7 @@ import { Loader } from "lucide-react";
 import { LuLoaderCircle } from "react-icons/lu";
 import { axiosInstance } from "@/lib/axios";
 import { useEffect, useRef } from "react";
+import { Loader2 } from "lucide-react";
   
 
 
@@ -40,15 +41,17 @@ export default function Page() {
   
 
   return (
-    <div className="min-h-screen w-full bg-black flex justify-center items-center">
-     <Card  className="w-3/4 h-[20rem] outline-lime-800 outline-2 shadow-md shadow-green-800 lg:w-3/8 flex justify-center bg-gray-800 items-center" >
-        <CardDescription className=" text-black text-2xl font-medium ">
-           <LuLoaderCircle className="size-8 animate-spin text-green-800"/>
-        </CardDescription>
-        <CardContent>
-           Loading
-        </CardContent>
-     </Card>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-green-500 via-black to-zinc-900 px-4 text-center">
+    <div className="relative mb-8">
+      <div className="absolute inset-0 rounded-full bg-green-400 blur-2xl opacity-20 animate-pulse"></div>
+      <Loader2 className="relative z-10 animate-spin text-green-300 size-20 drop-shadow-lg" />
     </div>
+    <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
+      Authenticating...
+    </h1>
+    <p className="text-zinc-300 text-lg md:text-xl max-w-md">
+      Hang tight while we sync your vibe with Spotify. Almost there 🎶
+    </p>
+  </div>
   );
 }
