@@ -1,6 +1,7 @@
 import { axiosInstance } from "@/lib/axios";
 import { create } from "zustand";
 import Statuses from "../admin/components/Layout/Statuses";
+import toast from "react-hot-toast";
 
 export const useMusicStore = create((set,get)=>({
     albums: [],
@@ -80,9 +81,11 @@ export const useMusicStore = create((set,get)=>({
           const statuse = await axiosInstance.get("/status")
 
           set({ songs: result.data, status: statuse.data });
+          toast.success("Deleted Successfully")
       
         } catch (error) {
           console.error({ deleteSongError: error });
+          toast.error(error)
         } finally {
           set({ isLoading: false });
         }
@@ -112,9 +115,10 @@ export const useMusicStore = create((set,get)=>({
           const statuse = await axiosInstance.get("/status")
 
           set({ allAlbums: result.data, status: statuse.data, songs: songsResult });
-      
+          toast.success("Deleted Successfully")
         } catch (error) {
           console.error({ deleteSongError: error });
+          toast.error(error)
         } finally {
           set({ isLoading: false });
         }

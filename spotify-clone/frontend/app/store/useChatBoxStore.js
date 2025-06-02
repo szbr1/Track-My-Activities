@@ -4,6 +4,11 @@ import { create } from "zustand";
 export const useChatboxStore = create((set)=>({
     users: [],
     isLoading: false,
+    userOnline: false,
+    isConnected: false,
+    
+
+
 
     fetchUsers: async ()=>{
         try {
@@ -16,4 +21,8 @@ export const useChatboxStore = create((set)=>({
         set({isLoading: false})
     }
     }
+
+
+
+
 }))

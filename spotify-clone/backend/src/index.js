@@ -13,10 +13,14 @@ import albumRoutes from './routes/album.route.js'
 import adminRoutes from './routes/admin.route.js'
 import authRoutes from './routes/auth.route.js'
 import statusRoutes from './routes/status.route.js'
+import { createServer } from 'http'
+import { initializeSocket } from './lib/socket.js'
 
 const app = express()
 const __dirname = path.resolve()
 
+const server = createServer(app)
+initializeSocket(server)
 dotenv.config()
 
 app.use(express.json())
@@ -55,6 +59,6 @@ const PORT = process.env.PORT
 // Database connection
 connectionDB()
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(PORT)
 })
