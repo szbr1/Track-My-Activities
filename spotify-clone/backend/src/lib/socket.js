@@ -20,10 +20,10 @@ export const initializeSocket = (server)=>{
             UserSocket.set(userId, socket.id)
             ActivitySocket.set(userId, "idle")
 
-            io.emit("connection", userId)
+            io.emit("user_connected", userId)
          
-            io.emit("getUsers", Array.from(UserSocket.keys()))
-            socket.emit("getActivities", Array.from(ActivitySocket.entries()))
+            io.emit("users_online", Array.from(UserSocket.keys()))
+            socket.emit("activities", Array.from(ActivitySocket.entries()))
 
             
             
@@ -45,11 +45,13 @@ export const initializeSocket = (server)=>{
 
         const userStatus = UserSocket.get(reciverId)
         if(userStatus){
-            io.to(userStatus).emit("recievMessage", message)
+            io.to(userStatus).emit("recieve_message", message)
         }
 
-        socket.emit("sentMessage", message)
+        socket.emit("message_sent", message)
       })
+
+      
 
       socket.on("disconnect_user", ()=>{
         let disconnectUser;

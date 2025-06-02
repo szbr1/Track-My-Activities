@@ -6,6 +6,7 @@ import { useIsAdmin } from "../store/useAuthStore"
 import { useFeaturedStore } from "../store/useFeaturedStore"
 import { useEffect } from "react"
 import { ScrollArea } from "../components/ui/scroll-area"
+import { useChatStore } from "../store/useChatStore"
 
 
 
@@ -71,7 +72,7 @@ function page() {
           }
         </div>
         <div className='h-[8rem] relative w-full text-white'></div>
-           
+            
           </div>
           </ScrollArea>
         </div>

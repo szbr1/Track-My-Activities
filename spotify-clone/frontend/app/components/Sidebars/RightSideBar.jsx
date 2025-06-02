@@ -1,6 +1,5 @@
 'use client'
 import { CiMusicNote1 } from "react-icons/ci";
-import { useChatboxStore } from '@/app/store/useChatBoxStore';
 import { useSignIn } from '@clerk/nextjs';
 import React, { useEffect } from 'react'
 import { IoChatbubblesSharp } from "react-icons/io5";
@@ -8,9 +7,10 @@ import { BsPeopleFill } from "react-icons/bs";
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { AvatarImage } from '@radix-ui/react-avatar';
 import { ScrollArea } from "../ui/scroll-area";
+import { useChatStore } from "@/app/store/useChatStore";
 
 function RightSideBar() {
-const {fetchUsers, users}= useChatboxStore();
+const {fetchUsers, users}= useChatStore();
 const {signIn} =useSignIn
 const isPlaying = true
 const tempUsers = [
