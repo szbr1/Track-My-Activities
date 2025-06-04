@@ -13,6 +13,7 @@ import { useChatStore } from "../store/useChatStore"
 
 function page() {
   const isAdmin = useIsAdmin()
+  const {isConnected} = useChatStore()
 
   const {trendingSongs,featuredSongs,madeForYou,isLoading  ,fetchFeaturedSongs,fetchTrendingSongs,fetchMadeForYouSongs} = useFeaturedStore()
 
@@ -71,8 +72,11 @@ function page() {
             })
           }
         </div>
-        <div className='h-[8rem] relative w-full text-white'></div>
-            
+        <div className='h-[8rem] flex relative w-full py-4 text-white'>
+        {isConnected?<div className="h-8 w-8 rounded-full mt-2 bg-green-800"></div>
+        :<div className="h-8 w-8 rounded-full mt-2 bg-red-800"></div>}
+        </div>
+     
           </div>
           </ScrollArea>
         </div>

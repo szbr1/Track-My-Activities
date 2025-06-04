@@ -33,7 +33,7 @@ function LeftSidebar() {
           </Link>
            { isSignedIn ? 
                <Button variant={'ghost'} className={" p-0 m-0  text-white cursor-pointer  hover:bg-zinc-600"}>
-         <Link className='flex justify-start w-full px-6 md:px-2 items-center text-start ' href={'/Songs'}><BiMessageSquareDetail /><span className='hidden md:block'>&nbsp;Messages</span>
+         <Link className='flex justify-start w-full px-6 md:px-2 items-center text-start ' href={'/Home/messages'}><BiMessageSquareDetail /><span className='hidden md:block'>&nbsp;Messages</span>
          </Link>   
         
           </Button> : null

@@ -13,62 +13,44 @@ export const initializeSocket = (server)=>{
     const UserSocket = new Map();
     const ActivitySocket = new Map();
 
-    //i have to build the connection 
-    io.on("connection",(socket)=>{
-        //here i have to build user connection
-        socket.on("user_connected",(userId)=>{
-            UserSocket.set(userId, socket.id)
-            ActivitySocket.set(userId, "idle")
-
-            io.emit("user_connected", userId)
-         
-            io.emit("users_online", Array.from(UserSocket.keys()))
-            socket.emit("activities", Array.from(ActivitySocket.entries()))
-
-            
-            
-        })
-
-        //here we upload user Activities 
-        socket.on("update_activity",(userId, activies)=>{
-            ActivitySocket.set(userId, activies)
-
-            io.emit("activity_updated", {userId, activies})
-
-        })
-
-      socket.on("send_message", async (data)=>{
-        const {userId,reciverId,content}  = data;
-        const message = await Message.create({
-            userId,content,reciverId
-        })
-
-        const userStatus = UserSocket.get(reciverId)
-        if(userStatus){
-            io.to(userStatus).emit("recieve_message", message)
-        }
-
-        socket.emit("message_sent", message)
-      })
-
+    io.on("connection", (socket) => {
+        // User Connection
+        socket.on("user_connected", (userId) => {
+          UserSocket.set(userId, socket.id);
+          ActivitySocket.set(userId, "idle");
+          io.emit("user_connected", userId);
+          io.emit("users_online", Array.from(UserSocket.keys()));
+          socket.emit("activities", Array.from(ActivitySocket.entries()));
+        });
       
-
-      socket.on("disconnect_user", ()=>{
-        let disconnectUser;
-       for( const [userId, socketId] of UserSocket.entries()){
-
-           if(socketId === socket.id){
-            disconnectUser = userId
-               UserSocket.delete(userId)
-               ActivitySocket.delete(userId)
-               break
+        // Activity Update
+        socket.on("update_activity", (userId, activity) => {
+          ActivitySocket.set(userId, activity);
+          io.emit("activity_updated", { userId, activity });
+        });
+      
+        // Message Handling
+        socket.on("send_message", async (data) => {
+          const { userId, receiverId, content } = data;
+          const message = await Message.create({ userId, content, receiverId });
+          const receiverSocketId = UserSocket.get(receiverId);
+          if (receiverSocketId) {
+            io.to(receiverSocketId).emit("receive_message", message);
+          }
+        });
+      
+        // Disconnection
+        socket.on("disconnect", () => {
+          for (const [userId, socketId] of UserSocket.entries()) {
+            if (socketId === socket.id) {
+              UserSocket.delete(userId);
+              ActivitySocket.delete(userId);
+              io.emit("user_disconnected", userId);
+              break;
             }
-            if(disconnectUser){
-                io.emit("user_disconnected", disconnectUser)
-            }
-        }
-      })
-    })
+          }
+        });
+      });
 
 }
 

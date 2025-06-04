@@ -11,6 +11,7 @@ import { useChatStore } from "@/app/store/useChatStore";
 
 function RightSideBar() {
 const {fetchUsers, users}= useChatStore();
+const {isConnected} = useChatStore()
 const {signIn} =useSignIn
 const isPlaying = true
 const tempUsers = [
@@ -129,9 +130,10 @@ useEffect(()=>{
       {!signIn ? (
         users.map((user, index)=>{
          return (
-          <div key={ index + 1} className=' flex items-center gap-3 mt-4 cursor-pointer hover:bg-gray-800 px-2 rounded-md'>
+          <div key={ index + 1} className=' relative flex items-center gap-3 mt-4 cursor-pointer hover:bg-gray-800 px-2 rounded-md'>
           <Avatar className={"size-9"}>
-           <AvatarImage src={user.imageUrl}/>
+           <AvatarImage src={user.imageUrl} className="z-10 relative"/>
+           <div className={`absolute  z-50 h-3 w-3 rounded-full bottom-2 ${isConnected ? 'bg-green-600' : 'bg-gray-400'}`}></div>
            <AvatarFallback>{user.fullName[0]}</AvatarFallback>
           </Avatar>
 
