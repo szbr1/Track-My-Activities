@@ -39,8 +39,22 @@
    //!  will be = 1 
     
 
-   
 
-   console.log(a)
-   
-   var a = 12
+//    const structure = new Object()
+
+//    structure["filename"] = 'rar'
+
+//    const manager = filename
+
+//    console.log(structure.manager)
+
+
+
+function greet(){
+    console.log('hi')
+}
+
+greet.filename = 'hello'
+
+console.log(greet())// will return whole function 
+console.log(greet().filename) // hello that was not in whole function 
