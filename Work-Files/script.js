@@ -234,21 +234,250 @@
 // const call = brown()
 // call()
 
+//* example 3
 
-function factory(ln){
-    return function(firstname, lastname){
-       if(ln === "en"){
-         console.log(`How may i can help you ${firstname} ${lastname}`)
-        }
-        if(ln === "ur"){
-           console.log(`G btaiya ${firstname} ${lastname} hum apki kis trah madad kr saktya hain ` )
+// function factory(ln){
+//     return function(firstname, lastname){
+//        if(ln === "en"){
+//          console.log(`How may i can help you ${firstname} ${lastname}`)
+//         }
+//         if(ln === "ur"){
+//            console.log(`G btaiya ${firstname} ${lastname} hum apki kis trah madad kr saktya hain ` )
 
-       }
-    }
-}
+//        }
+//     }
+// }
 
-const langA = factory("en")
-const langB = factory("ur")
+// const langA = factory("en")
+// const langB = factory("ur")
 
-langA("shahzaib", "Mirza")
-langB("ALiza", "Mam")
+// langA("shahzaib", "Mirza")
+// langB("ALiza", "Mam")
+
+
+//! bind()
+ // const color = {
+//     firstName: "Shahzaib",
+
+//     getName : function(){
+//       const name = this.firstName
+//       return name;
+//     }
+// }
+
+// function authCheck(lan){
+//     console.log("Logged",this.getName(),lan)
+// }
+//!bind
+// const copy = authCheck.bind(colors);
+
+// copy('urdu')
+//explained call under this
+//!call
+// authCheck.call(colors,"english") // and aslo give the parameter
+//!apply
+// authCheck.apply(colors,["english"]) // and aslo give the parameter but in array[]
+
+
+
+//---------------------------------------------------------
+
+//! call()
+
+
+//actually call work as bind but it calls the funtion imidiatly 
+// we can also call a funtion like this =>
+//*const color = ()=>console.log("hello")
+// so rather than calling a funtion like 
+//* color()
+// what we can do 
+//* color.call
+
+
+//but one important thing you want to now how
+//  //!call
+//  work as a 
+// //!bind
+
+// const colors = {
+//     firstName: "Shahzaib",
+
+//     getName : function(){
+//       const name = this.firstName
+//       return name;
+//     }
+// }
+
+// function authCheck(lan){
+//     console.log("Logged",this.getName(),lan)
+// }
+
+//here is we gonna call it 
+// authCheck.call(colors,"english") // and aslo give the parameter
+
+
+//!functional programming 
+
+
+// function callerFun(arr, binder){
+//   const products = []
+
+//    for(let i = 0; i < arr.length; i++){
+//      products.push(binder(i))
+//    }
+
+//    return console.log(products)
+// }
+
+
+// const arr= [1,2,3,4]
+// console.log(arr)
+
+// function binder( checker){
+   
+//    return checker < 2
+// }
+
+// callerFun(arr, binder)
+
+//! prototype
+
+// const product = {
+//    lastname: "Default"
+// }
+// const jhon = {
+//    firstname: "Jhon",
+   
+// }
+
+// jhon.__proto__ = product
+
+// console.log(jhon.lastname)
+
+
+// const john = {
+//    firstname: "Jhon",
+//    lastName: "Die",
+   
+// }
+
+ //* 2.
+
+// const person = {
+//    firstName: "Default",
+//    lastName: "Default",
+//    getFullName: function(){
+//       console.log(this.firstname ," ", this.lastName)
+//    }
+// }
+
+// console.log("first:", john.prop)
+// john.__proto__ = person 
+// console.log("second: ", john["firstname"])
+
+
+// for(const prop in john){
+//    if(john.hasOwnProperty(prop)){
+//       console.log(prop , )
+//    }
+// }
+
+//* Functional constructor and prototype 
+// 1. Defining the "Dog" Blueprint (using a constructor function)
+//    Think of 'Dog.prototype' as our actual blueprint object.
+// *function Dog(name, breed) {
+ //*  this.name = name; // Each dog instance will have its own name
+  //* this.breed = breed; // Each dog instance will have its own breed
+   // We don't put 'bark' here because every dog barks the same way,
+   // so we put it on the prototype to be shared.
+// *}
+
+// 2. Adding a common behavior to the Dog Blueprint (prototype)
+//    All dogs created from this blueprint will "inherit" the 'bark' method.
+//* Dog.prototype.bark = function() {
+  //* console.log(`${this.name} says Woof!`);
+// *};
+
+// 3. Creating Dog Instances (Gadgets from the blueprint)
+//* const buddy = new Dog("Buddy", "Golden Retriever");
+//* const lucy = new Dog("Lucy", "Beagle");
+
+// 4. Accessing Properties and Methods:
+
+// Buddy has his own 'name' and 'breed'
+//* console.log(buddy.name); // Output: Buddy
+//* console.log(buddy.breed); // Output: Golden Retriever
+
+// Buddy uses the 'bark' method from the Dog.prototype (the blueprint)
+//* buddy.bark(); // Output: Buddy says Woof!
+
+// Lucy also uses the *same* 'bark' method from the Dog.prototype
+//* ucy.bark(); // Output: Lucy says Woof!
+
+// 5. Inspecting the Prototype Chain:
+
+// How does JavaScript find 'bark' for 'buddy'?
+// It checks buddy.bark (not found)
+// Then it checks buddy's prototype (Dog.prototype). Found!
+
+// You can see the prototype relationship:
+// *console.log(Object.getPrototypeOf(buddy) === Dog.prototype); // Output: true
+// *console.log(Object.getPrototypeOf(lucy) === Dog.prototype);  // Output: true
+
+// And what's Dog.prototype's prototype? It's the base Object.prototype.
+// *console.log(Object.getPrototypeOf(Dog.prototype) === Object.prototype); // Output: true
+
+// And Object.prototype's prototype is null, which ends the chain.
+//* console.log(Object.getPrototypeOf(Object.prototype)); // Output: null
+
+// 6. Changing the Blueprint (Prototype)
+//    If we change the blueprint, all existing and future instances inherit the change.
+//* Dog.prototype.sleep = function() {
+ // *  console.log(`${this.name} is sleeping.`);
+// *};
+
+// *buddy.sleep(); // Output: Buddy is sleeping.
+// *lucy.sleep(); // Output: Lucy is sleeping.
+
+// 7. Overriding on an Instance
+//    You can give an individual dog its *own* special bark.
+//* buddy.bark = function() {
+//*    console.log(`B-b-b-buddy says grrrrr.`);
+//* };
+
+// *buddy.bark(); // Output: B-b-b-buddy says grrrrr. (Buddy's own bark)
+// *lucy.bark();  // Output: Lucy says Woof! (Lucy still uses the blueprint's bark)
+
+//! we can make changes or create inbuilt....
+// Date.prototype.today = function(){
+//    return this.getDay()+"/"+this.getMonth()+"/"+this.getFullYear()
+// }
+
+// const color = new Date()
+
+// console.log(color.today())
+
+
+//! object.create 
+
+// const topic = {
+//    name:  "dog",
+//    bread: "parsian",
+//    test: function(){
+//       return this.name + "hello"+ this.bread
+//    }
+// }
+
+
+// const alerting = Object.create(topic)
+
+// alerting.name = "Bolly"
+
+// console.log(alerting, alerting.name)
+
+
+//! jQuerry
+
+const a = $('ul.li')
+
+console.log(a)
