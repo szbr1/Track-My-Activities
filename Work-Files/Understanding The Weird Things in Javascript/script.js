@@ -478,6 +478,13 @@
 
 //! jQuerry
 
-const a = $('ul.li')
+// const a = $('ul.li')
 
-console.log(a)
+// console.log(a)
+
+//! My own libraray
+
+const alpha = G$("jhon", "karlo")
+const beta  = G$.Cover("Blue", "Larvel")
+console.log(alpha, beta)
+console.log("seprate:", G$)
