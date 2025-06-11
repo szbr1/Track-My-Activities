@@ -157,9 +157,18 @@
 // obj2.caller()
 
 
-//! Limitations and readiblilty
+// //! Limitations and readiblilty
 
-let longExpression = x => y => z => z ? y : x;
-let longExpression2 = function(x) {    return function(y) {        return function(z) {            return z ? y : x;        }    }}
-let result1 = longExpression('Tony')('Anthony')(true);let result2 = longExpression('Tony')('Anthony')(false);
-console.log(result1);console.log(result2);
+// let longExpression = x => y => z => z ? y : x;
+// let longExpression2 = function(x) {    return function(y) {        return function(z) {            return z ? y : x;        }    }}
+// let result1 = longExpression('Tony')('Anthony')(true);let result2 = longExpression('Tony')('Anthony')(false);
+// console.log(result1);console.log(result2);
+
+
+//! Quiz 
+const dname = Symbol('DogName');
+let dog = {
+  [dname]: 'Fido'
+}
+
+//* How we call the conole to get dname value 
