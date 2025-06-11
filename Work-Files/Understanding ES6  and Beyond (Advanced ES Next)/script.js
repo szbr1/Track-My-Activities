@@ -60,30 +60,106 @@
 
 //! class important (get, set) getters and setters
 
-class Fridge{ 
-    //* by doing this now we can make the feilds private no one can access
-    #item
-    #drink
+// class Fridge{ 
+//     //* by doing this now we can make the feilds private no one can access
+//     #item
+//     #drink
 
-    constructor(drink,item){
-        this.#drink = drink
-        this.#item = item
-    }
+//     constructor(drink,item){
+//         this.#drink = drink
+//         this.#item = item
+//     }
     
-    //* by doing this everyone can access but can't mutate
+//     //* by doing this everyone can access but can't mutate
     
-    get supply(){
-      return this.#drink+ " "+ this.#item
-    }
+//     get supply(){
+//       return this.#drink+ " "+ this.#item
+//     }
 
-    // with this i can set fields as well
-    set limit(val){
-            this.#drink = val
-    }
+//     // with this i can set fields as well
+//     set limit(val){
+//             this.#drink = val
+//     }
 
-}
+// }
 
-const kitchen = new Fridge('Fizz', 'Sabun')
-kitchen.limit = 'BlueBarry'
+// const kitchen = new Fridge('Fizz', 'Sabun')
+// //* in this way we can set the setter value of field
+// kitchen.limit = 'BlueBarry'
 
-console.log(kitchen.supply)
+// console.log(kitchen.supply)
+
+
+
+//! class => we can also private the methods 
+
+// class Fridge{ 
+//     item
+//     drink
+
+//     constructor(drink,item){
+//         this.drink = drink
+//         this.item = item
+//     }
+//   //* by adding # before funtion we can make it private 
+//     #getValue (na){
+//      return na 
+//     }
+    
+    
+   
+
+// }
+
+// const kitchen = new Fridge('Fizz', 'Sabun')
+// console.log(kitchen.getValue) // we show undefined 
+
+//! fat arrow function ()=> && this 
+
+// const obj = {
+//     name: "Jhone",
+//     caller: ()=>{    //if we use arrow method directly it refers to window object but if we use function exp it refers obj
+//    console.log(this)
+//     }
+// }
+
+
+// obj.caller()
+
+
+// const obj2 = {
+//     name: "Jhone",
+//     caller: function(){   
+//    console.log(this) // here this refers to obj2
+
+//    //* what will happen if we add a function expression here and call this 
+//     //  function log(){
+
+//     // const self = this 
+//     //     console.log(this) //* here this will call the window object 
+
+//     //  //* to make it refer the obj not window we have to add self 
+//     // console.log(self) //* this will refer to the obj not window 
+//     //  }
+//     //  log()  
+
+//     //* what will happen if we use arrow fc 
+//     const log = ()=>{
+//         console.log(this) //here it will show the obj 
+//     }
+
+
+//     }
+// }
+
+
+// obj.caller()
+// obj2.caller()
+
+
+//! Limitations and readiblilty
+
+let longExpression = x => y => z => z ? y : x;
+let longExpression2 = function(x) {    return function(y) {        return function(z) {            return z ? y : x;        }    }}
+let result1 = longExpression('Tony')('Anthony')(true);let result2 = longExpression('Tony')('Anthony')(false);
+console.log(result1);console.log(result2);
