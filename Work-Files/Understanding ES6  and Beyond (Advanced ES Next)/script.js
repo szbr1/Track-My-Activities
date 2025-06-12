@@ -171,36 +171,36 @@
 //   [dname]: 'Fido'
 // }
 
-// //* How we call the conole to get dname value 
+ // //* How we call the conole to get dname value 
 
-//! iterator     
+// //! iterator     
 
-const tv = {
-  [Symbol.iterator]: ()=>{
-    const value = 2 
-    const end = 10
-    let nextValue = value
-      return {
-        next: ()=>{
-          if(nextValue < end) {
-            nextValue++
-            return { value: nextValue, done: false}
-          }
-          return { value: nextValue, done: true}
-        }
-      }
-  }
-}
-//How javascript does this
-for(let iterator of tv){
-  console.log(iterator)
-}
-//How under the hood javascript does this
-const iterable = tv[Symbol.iterator]()
-const next = iterable.next()
-if(!next.done){
-  console
-}
+// const tv = {
+//   [Symbol.iterator]: ()=>{
+//     const value = 2 
+//     const end = 10
+//     let nextValue = value
+//       return {
+//         next: ()=>{
+//           if(nextValue < end) {
+//             nextValue++
+//             return { value: nextValue, done: false}
+//           }
+//           return { value: nextValue, done: true}
+//         }
+//       }
+//   }
+// }
+// //How javascript does this
+// for(let iterator of tv){
+//   console.log(iterator)
+// }
+// //How under the hood javascript does this
+// const iterable = tv[Symbol.iterator]()
+// const next = iterable.next()
+// if(!next.done){
+//   console
+// }
 // let iterable = tv.lcd(2, 10)
 
 // console.log(iterable.next())
@@ -216,3 +216,7 @@ if(!next.done){
 // console.log(iterable.next())
 // console.log(iterable.next())
 // console.log(iterable.next())
+
+
+
+
