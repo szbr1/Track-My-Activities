@@ -1,7 +1,7 @@
-//? Day 2 : 14/06/2025
+// // ? Day 2 : 14/06/2025
 
 
-//! EventEmitter 
+// ! EventEmitter 
 // const EventEmitter  = require('events')
 
 // class Emiter extends EventEmitter {}
@@ -14,7 +14,7 @@
 
 // emiter.emit('karlo')
 
-//! Buffers 
+// //! Buffers 
 
 // const {Buffer} = require("buffer")
 
@@ -41,7 +41,7 @@
 // console.log(bf.toString("utf-8"))
 
 
-//!how buffers shows on cpu with taskbar
+// //!how buffers shows on cpu with taskbar
 
 // const {Buffer} = require("buffer")
 
@@ -52,3 +52,13 @@
 //      buff[i] = 0x22
 //     }
 // })
+
+
+
+const fs = require("fs")
+
+fs.writeFileSync("file.txt",'my namd is ')
+
+const read = fs.readFileSync("file.txt")
+
+console.log(read.toString('utf-8'))
