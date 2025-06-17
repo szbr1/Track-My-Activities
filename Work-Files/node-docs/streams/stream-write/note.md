@@ -1,1 +1,0 @@
-Make sure to run a file first node script.js
