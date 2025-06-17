@@ -38,7 +38,7 @@ const fs  = require("fs/promises");
     const stream = filename.createWriteStream()
 
     let i = 0;
-    const max = 100000000000000;
+    const max = 1000000;
 
 
 
@@ -48,7 +48,7 @@ const fs  = require("fs/promises");
    
         
         while(i < max){
-            const buff = Buffer.from(` ${ i } `, "utf-8");
+            const buff = Buffer.from(` ${i} `, "utf-8");
             // stream.write(buff)
         
             if(i === max - 1){
