@@ -7,29 +7,39 @@ const fs = require("fs/promises");
     const readFile = await fs.open("cmd.txt", 'r');
     const writeFile = await fs.open("msc.txt", 'w');
 
-    const readStream = readFile.createReadStream({highWaterMark: 64})
-    console.log(readStream.readableHighWaterMark)
+    const readStream = readFile.createReadStream({highWaterMark: 64 * 1024})
+    // console.log(readStream.readableHighWaterMark)
     const writeStream = writeFile.createWriteStream()
 
     console.log(readStream.readableHighWaterMark)
 
+    let split = ''
+
     readStream.on('data', (data)=>{
-      const numbers = data.toString().split(" ")
+      const numbers = data.toString("utf-8").split("  ")
       
-    //  if(Number(numbers.length))
-
-
+      if(Number(numbers[0]) !== Number(numbers[1]) - 1){
+        if(split){
+          numbers[0] = split.trim() + numbers[0].trim()
+        }
+      }
+      console.log(numbers)
       
-      console.log((numbers.length))
-      console.log(numbers[numbers.length -2])
-      // console.log(Number(numbers[numbers.length()]))
-      // console.log(Number(numbers[numbers.length -1]))
+      
+      if(Number(numbers[numbers.length - 2]) + 1 !== Number(numbers[numbers.length - 1])){
+        split = numbers.pop()
+      }
+      
+    numbers.forEach((number)=>{
+      let n = Number(number);
+      if(n % 10 === 0){
+        if (!writeStream.write(" " + n + " ")) {
+          readStream.pause();
+        }
+      }
+    })
 
 
-
-      if(!writeStream.write(data)){
-        readStream.pause()
-      } 
     })
 
    
@@ -37,12 +47,10 @@ const fs = require("fs/promises");
     readStream.resume()
    })
 
-   writeStream.on('finish',()=>{
-    console.log("file has been copied")
-   })
    
    readStream.on('end', ()=>{
-    writeStream.end()
+    console.log("Done reading")
+    // writeStream.end()
    })
 
 

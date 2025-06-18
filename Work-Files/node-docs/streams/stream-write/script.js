@@ -48,7 +48,7 @@ const fs  = require("fs/promises");
    
         
         while(i < max){
-            const buff = Buffer.from(` ${i} `, "utf-8");
+            const buff = Buffer.from(`${i} `, "utf-8");
             // stream.write(buff)
         
             if(i === max - 1){
