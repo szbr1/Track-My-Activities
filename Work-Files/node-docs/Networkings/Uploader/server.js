@@ -4,14 +4,24 @@ const net = require("net");
 
 const server = net.createServer(()=>{})
 
-server.on("connection",(socket)=>{
+let fileHandle, fileStream
 
-    socket.on("data",async(data)=>{
-        const fileHandle = await fs.open("Storage/toxic.txt", "w");
-        const fileStream = fileHandle.createWriteStream();
+server.on("connection",async(socket)=>{
+    fileHandle = await fs.open("Storage/toxic.txt", "w");
+    fileStream = fileHandle.createWriteStream();
 
+
+    socket.on("data",(data)=>{
+     
+        
         fileStream.write(data)
     })
+
+    socket.on("end", async () => {
+        console.log("Connection has been ended.");
+        fileStream.end(); // ✅ Close the stream
+        await fileHandle.close(); // ✅ Close the file handle
+      });
 })
 
 
