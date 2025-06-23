@@ -39,7 +39,7 @@ server.on("request",async(request,response)=>{
   }
   
   if(request.url === "/login" && request.method === "POST"){
-    response.setHeader("Content-Type", "Application/json")
+    response.setHeader("Content-Type", "application/json")
     response.statusCode = 200
 
     const data = {
@@ -49,6 +49,24 @@ server.on("request",async(request,response)=>{
     //* response.write(JSON.stringify(data))
 // but with this request knows the request has been ended and this was the last data
    response.end(JSON.stringify(data))
+  }
+
+  
+//! with this we can upload files from client to server using http
+  if(request.url === "/uploader" && request.method === "PUT"){
+    response.setHeader("Content-Type", "application/json")
+    response.statusCode = 200
+
+     const handleFile = await fs.open("./storage/image.png", "w")
+     const streamFile = handleFile.createWriteStream()
+
+     request.pipe(streamFile)
+
+     request.on("end",()=>{
+       response.end(JSON.stringify({message: "file uploaded successfully"}))
+     })
+
+     console.log("here is the this",this)
   }
 
 })
