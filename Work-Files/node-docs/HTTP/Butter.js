@@ -9,7 +9,14 @@ class Butter {
         
 
         this.server.on("request",(req,res)=>{
- 
+            res.sendFile = async(path, mimi)=>{
+                const file = await fs.open(path, "r")
+                const readStream = file.createReadStream()
+              
+                res.setHeader("Content-Type", mimi)
+  
+                readStream.pipe(res)
+              }
 
             res.status = (code)=>{
                 res.statusCode = code
@@ -27,14 +34,7 @@ class Butter {
 
             this.routes[req.method.toLowerCase() + req.url](req,res)
 
-            res.sendFile = async(path, mimi)=>{
-              const file = await fs.open(path, "r")
-              const readStream = file.createReadStream()
             
-              res.setHeader("Content-Type", mimi)
-
-              readStream.pipe(res)
-            }
             
           console.log("new user connected")
         })
