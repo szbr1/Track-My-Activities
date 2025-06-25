@@ -6,6 +6,7 @@ class Butter {
     constructor(){
         this.routes = {}
         this.server = http.createServer()
+        this.middleware = []
         
 
         this.server.on("request",(req,res)=>{
@@ -33,10 +34,24 @@ class Butter {
             }
 
             this.routes[req.method.toLowerCase() + req.url](req,res)
+          
 
+            if (this.middleware[0])
+                this.middleware[0](req, res, () => {
+                  if (this.middleware[1])
+                  this.middleware[1](req, res, () => {
+                    if (this.middleware[2])
+                    this.middleware[2](req, res, () => {
+                      if (this.middleware[3])
+                      this.middleware[3](req, res, () => {
+                        if (this.middleware[4])
+                        this.middleware[4](req, res, () => console.log("the end"))
+                      })
+                    })
+                  })
+                })
+                
             
-            
-          console.log("new user connected")
         })
 
 
@@ -46,6 +61,9 @@ class Butter {
         this.routes[method+path] = fc
     }
     
+    getBefore(cb){
+      this.middleware.push(cb)
+    }
     
 
     listen(port,cl){
