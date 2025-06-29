@@ -20,3 +20,9 @@ Today i learn about what is **bashrc** file learn about that how to change it ho
 I learn that env is always writen in UPPERCASE in **bashrc** file.
 
 - I Learn about stdin , stdout , stderr => How they work and how to use it 
+----
+
+### Day: 4
+Today i learn about comprasion what comprasion is how it work How big companies save millions of dollars in a months using this comprasion and how i can use this to increase the speed of my website.
+
+---
