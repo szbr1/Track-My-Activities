@@ -7,5 +7,10 @@ const filename = fs.createReadStream("./cheatsheet.txt",)
 const writeStrem = fs.createWriteStream("./color.txt")
 
 const realCrypto = crypto.createCipheriv("aes-128-ecb",  key, null)
-
 filename.pipe(realCrypto).pipe(writeStrem)
+
+
+const ciphertext = fs.readFileSync("./color.txt")
+const hmac = crypto.createHmac("sha256", key).update(ciphertext).digest("hex")
+
+console.log(hmac)

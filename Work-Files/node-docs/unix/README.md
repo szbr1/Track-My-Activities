@@ -26,3 +26,4 @@ I learn that env is always writen in UPPERCASE in **bashrc** file.
 Today i learn about comprasion what comprasion is how it work How big companies save millions of dollars in a months using this comprasion and how i can use this to increase the speed of my website.
 
 ---
+
