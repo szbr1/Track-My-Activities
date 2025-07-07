@@ -3,17 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>My React App</title>
+    <!-- Tailwind CSS CDN for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better aesthetics */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body>
- <div class="root">
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-    <button onclick={Hello()}>Hello</button>
+    <div id="root" class="p-8 bg-white rounded-lg shadow-lg text-center">
 
- </div>
+    </div>
 
-    <script src="react.development.js"></script>
-    <script src="./react-dom-develepment.js"></script>
-    <script src="./app.js"></script>
+    <!-- Load React and ReactDOM from CDN for development -->
+    <!-- Always load React first, then ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Load Babel for JSX transformation -->
+    <!-- Babel must be loaded after React and ReactDOM, and before any scripts using JSX -->
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Your custom application logic, using type="text/babel" to enable JSX -->
+    <script type="text/babel" src="./app.js"></script>
 </body>
 </html>
