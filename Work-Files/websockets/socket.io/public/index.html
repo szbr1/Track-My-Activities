@@ -1,0 +1,33 @@
+<!<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO Test</title>
+  </head>
+  <body>
+    <h1>Socket.IO Test</h1>
+
+    <!-- Include Socket.IO client library served by server -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      // here io is the the actuall socket
+      const socket = io();
+
+      // this request will show on the client side
+      socket.on("connect", () => {
+        console.log("✅ Connected to server");
+      });
+
+      // here we get the data that we emit from server to client
+      // so here we are client so we will have to just type the name of value that we give on server
+
+      socket.on("message", (data) => {
+        console.log(data);
+      });
+
+      // we can also send data from client to server
+      // let's emit the data to server means send the data from client to server
+
+      socket.emit("clientMessage", "Thank You for Joinning me 😕");
+    </script>
+  </body>
+</html>
