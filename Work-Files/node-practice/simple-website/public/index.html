@@ -1,45 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>File Compressor - Night Mode</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Document</title>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col items-center justify-center px-4">
+<body>
+    <main class="h-screen w-full bg-slate-600 text-white overflow-hidden p-4 ">
+        <div class="flex justify-center items-center  w-full cursor-pointer flex flex-col gap ">
+                 <div class=" p-8  mt-8 rounded-md h-44 bg-slate-600 h-full shadow-md md:w-3/4 backdrop-blur-md w-8/9  border-2 border-slate-400 flex flex-col gap-3 justify-center items-center">
+                    <span class="text-slate-900">
+                       <svg stroke="currentColor" fill="none" stroke-width="2" height="50px" width="50px" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    </span> 
+                    <span class="underline">Upload Your File</span>
 
-  <div class="text-center mb-8">
-    <h1 class="text-4xl font-bold text-white mb-3">🗜️ File Compressor</h1>
-    <p class="text-gray-400">Upload your file and we'll compress it for you in seconds.</p>
-  </div>
+                 </div>
 
-  <div class="bg-gray-800 p-8 rounded-2xl shadow-xl w-full max-w-md space-y-6">
-    <form action="/upload" method="POST" enctype="multipart/form-data" class="space-y-6">
-      
-      <div>
-        <label for="file-upload" class="block text-sm font-medium text-gray-300 mb-2">Select a file</label>
-        <input id="file-upload" name="file" type="file"
-          class="block w-full text-sm text-gray-300
-                 file:mr-4 file:py-3 file:px-6
-                 file:rounded-xl file:border-0
-                 file:text-sm file:font-semibold
-                 file:bg-purple-600 file:text-white
-                 hover:file:bg-purple-700
-                 transition duration-300
-                 cursor-pointer"/>
-      </div>
-
-      <button type="submit"
-        class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition duration-300">
-        📥 Compress Now
-      </button>
-    </form>
-  </div>
-
-  <footer class="mt-8 text-gray-500 text-sm">
-    &copy; 2025 File Compressor. All rights reserved.
-  </footer>
-
-  <script src="script.js"></script>
+                 <div class="mt-14 rounded-lg p-4   h-80 bg-blue-300 overflow-y-hidden  w-[90%]">
+                   <iframe src="hello.pdf" class="w-full  h-full "></iframe>
+                 </div>
+        </div>
+    </main>
 </body>
 </html>

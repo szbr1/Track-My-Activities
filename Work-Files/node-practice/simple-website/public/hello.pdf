@@ -1,0 +1,27 @@
+const express = require("express");
+const cors = require("cors");
+const AllRoutes = require("./routes/routes");
+
+const app = express();
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "http://localhost:3000",
+      "http://192.168.100.5:3000",
+      "http://103.21.22.5:3000"
+    ];
+
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  }
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use("/", AllRoutes);
+
+app.listen(7000, () => console.log("http://localhost:7000"));
