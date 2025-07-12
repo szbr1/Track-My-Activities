@@ -30,17 +30,8 @@ mainvideo.addEventListener("loadedmetadata",()=>{
 
 mainvideo.addEventListener("timeupdate",()=>{
   VideoSeek.value = mainvideo.currentTime;
-  const h = mainvideo.currentTime.toString().split(".")[0]
-  const b = 
-  if(number < 60){
-    currentduration.textContent = h 
     
-  }
-  const number = Number(h)
-  if(number > 60 ){
     
-    currentduration.textContent = h 
-      }
 
   
 })

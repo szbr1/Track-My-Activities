@@ -7,9 +7,9 @@
 
     <title>Document</title>
   </head>
-  <body class="flex h-screen w-full justify-center items-center">
-    <div class="wrapper p-4">
-      <h1>Shahzaib</h1>
+  <body class="flex h-screen w-full bg-[#87D68D] text-[#F7FFF6] justify-center items-center">
+    <div class="wrapper p-4 flex flex-col  gap-3">
+      <h1 class="text-[2rem] text-[#8491A3] font-bold">Shahzaib</h1>
       <div
         onclick="{parent()}"
         class="play player h-[394px] w-[698px] overflow-hidden rounded-md relative"
@@ -18,7 +18,7 @@
           class="h-full m-video w-full rounded-md relative"
           src="leopard.mp4"
         ></video>
-
+        <!-- -----  -->
         <div
           class="flex Parent-bottom z-20 flex-col w-full h-auto p-2 py-3 absolute bottom-0 bg-white/40"
         >
@@ -225,7 +225,21 @@
             </div>
           </div>
         </div>
-      </div>
+        </div>
+
+                <!-- ------  -->
+         <!-- ///////////////////////////////////////////////////////////////////
+         /////////////////////BACKEND////////////INPUT///////////////////
+         //////////////////////////BACKEND//////////////////////////////////////
+         ////////////////////////////////////////INPUT////////////////////////// -->
+
+         <form class="flex justify-center gap-1 items-center">
+
+           
+           <input type="text" class="keyvalue oultine-none rounded-md border-0 bg-[#8491A3]/60 focus:outline-none text-sm  border-slate-400 h-[30px] px-4 w-[190px] text-white" >
+
+           <button type="submit" class="py-1    px-3 rounded-sm text-sm font-bold text-[#8491A3] cursor-pointer  bg-[#F7FFF6] border-1 border-[#8491A3]  ">SUBMIT</button>
+          </form>
     </div>
     <script src="script.js"></script>
   </body>

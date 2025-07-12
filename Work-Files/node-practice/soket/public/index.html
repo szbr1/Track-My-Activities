@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Document</title>
+</head>
+<body class="p-4 relative  flex flex-col justify-center items-center h-screen w-full bg-slate-400/90">
+    <div class="absolute bottom-0 w-full p-3 px-24  ">
+         <form class="flex justify-center items-center gap-2">
+
+
+             <input  type="text" class=" bg-gray-500 backdrop-blur-md py-2 text-white px-3 w-full rounded-md ">
+             <button type="submit" onclick={btn()} class="px-3 py-[8px] bg-black text-slate-400 rounded-md cursor-pointer">submit</button>
+            </form>
+    </div>
+
+    <article class="mt-8 mesgs h-auto p-5 bg-slate-800 border w-3/4 border-white rounded-sm backdrop-blur-md text-white">
+        <h3 class="text-lg font-bold text-gray-400 underline">Messages</h3>
+        <div class="w-full h-full p-3 aptext">
+  <span class="texts">
+        </div>
+    </article>
+    </button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const inputtext = document.querySelector("input")
+        const mesgs = document.querySelector(".aptext")
+        const submitbtn = document.querySelector("form")
+
+        const socket = io()
+        socket.on("connect", ()=>{
+            console.log("I am connected")
+
+        })
+
+
+        const btn = ()=>{
+            console.log(inputtext.value)
+            socket.emit("msg", {data: inputtext.value})
+           
+
+            
+        }
+
+        socket.on("yes",(data)=>{
+            if(data.length > 0){
+
+                mesgs.innerHTML += `<span>${data} <br></span>`;
+            }
+            return
+        })
+    
+        submitbtn.addEventListener("click", (e)=>{
+        e.preventDefault();
+
+        
+        
+        inputtext.value = ""
+
+        })
+      
+
+      
+        
+
+        
+    </script>
+</body>
+</html>
