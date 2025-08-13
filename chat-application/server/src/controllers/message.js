@@ -1,13 +1,17 @@
 import cloudinary from "../lib/cloudinary.js";
+import { getReciever, io } from "../lib/socketio.js";
 import Message from "../models/message.model.js";
 import User from "../models/user.model.js";
 //i want all users accet that one who is logged in
 export const Sidebar = async (req, res) => {
   try {
     const loggedInUser = req.userId;
-    const users = await User.find({ _id: { $ne: loggedInUser } }).select(
-      "-password"
-    );
+
+    // filter and find the logged in users only
+    const users = await User.find(
+      { _id: { $ne: loggedInUser } })
+      .select("-password");
+
     return res.status(200).json(users);
   } catch (error) {
     console.error(error);
@@ -38,30 +42,48 @@ export const chat = async (req, res) => {
 };
 
 
-//here i can send msgs with this 
 
 export const send = async (req,res)=>{
-    const {id:recieverId} =req.params;
+    const {id:recieverId} = req.params;
     const senderId = req.userId;
+
+   
     try {
         const {text, image} = req.body;
+
+        // checkpoint
         if(!text && !image){
             return res.status(400).json("empty msg can't send")
         }
+
         let uploadImage;
+
         if(image){
-          const request =  await cloudinary.uploader.upload(image)
-          uploadImage = request.secure_url
+            // cloudinary upload handle
+            const request =  await cloudinary.uploader.upload(image)
+            uploadImage = request.secure_url
         }
-        const newMessages =await Message({
+
+
+        const newMessages = await Message({
             text,
             senderId,
             recieverId,
             image: uploadImage
             
         })
-        await newMessages.save()
-        return res.status(200).json(newMessages)
+
+      // save in db
+      await newMessages.save()
+
+      const recieverSocketId = getReciever(recieverId)
+
+if(recieverSocketId){
+
+  io.to(recieverSocketId).emit("newMessages", newMessages)
+}
+
+      return res.status(200).json(newMessages)
         
     } catch (error) {
         console.error(error);

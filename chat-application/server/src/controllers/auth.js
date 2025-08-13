@@ -27,7 +27,7 @@ export const signup = async (req, res) => {
       });
   
       // convert to plain object
-      jsonGenerate(User._id,res)
+      jsonGenerate(newUser._id,res)
       const userObj = newUser.toObject();
       delete userObj.password; // remove password
   
@@ -56,7 +56,7 @@ export const signin = async (req,res)=>{
        if(!verification){
         return res.status(400).json('Invalid Credentilas')
     }
-    const validPassCheck =await bcrypt.compare(password, verification.password)
+    const validPassCheck = await bcrypt.compare(password, verification.password)
     
     if(!validPassCheck){
         return res.status(400).json('Invalid Credentilas')
@@ -64,7 +64,7 @@ export const signin = async (req,res)=>{
        jsonGenerate(verification._id,res)
        return res.status(200).json({
         success: true,
-      data: validation 
+        data: validation 
         })
        
     } catch (error) {

@@ -4,9 +4,17 @@ import { useEffect } from "react";
 import { Users } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";
 import SidebarSkeleton from "./SidebarSkeleton";
+import { useAuthPage } from "../store/useAuthPage";
 
 const Sidebar = () => {
   const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
+  const {onlineUsers} = useAuthPage()
+
+  useEffect(()=>{
+console.log(onlineUsers)
+  },[onlineUsers])
+
+ 
 
   
 
@@ -56,12 +64,12 @@ const Sidebar = () => {
                 alt={user.name}
                 className="size-12 object-cover rounded-full"
               />
-              {/* {onlineUsers.includes(user._id) && (
+              {onlineUsers.includes(user._id) && (
                 <span
                   className="absolute bottom-0 right-0 size-3 bg-green-500 
                   rounded-full ring-2 ring-zinc-900"
                 />
-              )} */}
+              )}
             </div>
 
             {/* User info - only visible on larger screens */}
