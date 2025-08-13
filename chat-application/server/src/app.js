@@ -12,7 +12,7 @@ import { server, io, app as socketApp } from "./lib/socketio.js";
 dotenv.config();
 
 const dev = process.env.NODE_ENV !== "production";
-const nextApp = next({ dev, dir: "../../client" });
+const nextApp = next({ dev, dir: "../client" });
 const handle = nextApp.getRequestHandler();
 
 nextApp.prepare().then(() => {
