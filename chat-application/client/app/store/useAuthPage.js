@@ -80,7 +80,7 @@ export const useAuthPage = create(persist(
         const {authUser} = get()
         let socket;
         if (!get().socket) {
-            socket = io("http://localhost:8000",{
+            socket = io("https://track-my-activities-1.onrender.com",{
                 query: {
                     userId: authUser._id,
                   },
