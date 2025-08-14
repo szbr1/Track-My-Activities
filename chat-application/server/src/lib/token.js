@@ -12,7 +12,7 @@
                 maxAge: 7 * 24 * 60 * 60 * 1000,
                 httpOnly: true,
                 secure: true,
-                sameSite: "strict"
+                sameSite: "none"
             }) 
     } catch (error) {
         return res.status(500).json('Entery fail')
