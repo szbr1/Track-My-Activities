@@ -9,13 +9,14 @@ const jsonGenerate = (id, res) => {
         );
 
         res.cookie('token', token, {
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            domain: ".track-my-activities.vercel.app", // 👈 force cookie to stick to your frontend domain
-            path: "/" // 👈 available on the whole site, not just /api
-        });
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    domain: ".onrender.com",
+    path: "/"
+});
+
     } catch (error) {
         return res.status(500).json('Entry fail');
     }
