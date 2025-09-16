@@ -8,7 +8,11 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
+<<<<<<< HEAD
     origin: "http://localhost:3000",
+=======
+    origin: "https://track-my-activities.vercel.app",
+>>>>>>> df095a5c29910917e219144ac08fd8baf59afb90
     credentials: true,
   },
 });

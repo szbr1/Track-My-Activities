@@ -16,7 +16,11 @@ dotenv.config();
   app.use(cookieParser());
   app.use(express.json());
   app.use(cors({
+<<<<<<< HEAD
     origin: "http://localhost:3000",
+=======
+    origin: "https://track-my-activities.vercel.app",
+>>>>>>> df095a5c29910917e219144ac08fd8baf59afb90
     credentials: true
   }));
 
