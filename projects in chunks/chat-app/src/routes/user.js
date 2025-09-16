@@ -6,7 +6,22 @@ const route = express.Router()
 
 route.post("/new-user", async (req,res)=>{
     try {
+        const {userId, username} = req.body;
         
+        console.log({id: userId, name: username})
+        
+        const userIdAlreadyExist = await User.findOne({userId: userId})
+
+        if(userIdAlreadyExist){
+            return res.status(401).json({message: "Network issues refresh the website."})
+        }
+
+        await User.create({
+            userId,
+            username
+        })
+
+        return res.status(200).json({message: "Successfully Your Account Created."})
 
     } catch (error) {
         console.error(error)
@@ -14,5 +29,25 @@ route.post("/new-user", async (req,res)=>{
     }
 } )
 
+route.post("/user-verify", async(req,res)=>{
+    try {
+      const {userId} = req.body;
+
+      const userVerify = await User.findOne({userId: userId})
+
+      if(!userVerify){
+        return res.status(401).json({message: "You have 4 more attempts"})
+      }
+
+      res.status(200).json({message: "Welcome Back"})
+    } catch (error) {
+      console.error(error)  
+      return res.status(501).json({message: "Server error try agian later"})
+    }
+})
+
 
 export default route;
+
+
+
