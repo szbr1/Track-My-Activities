@@ -44,5 +44,20 @@ router.get("/leopard.mp4", async(req,res)=>{  //                                
     }
 })
 
+router.get("/720.mp4", async(req,res)=>{  //                                      <= video
+    try {
+    
+     const fileCheck = await fs.open("./public/720.mp4", "r")
+     const readFileC = fileCheck.createReadStream();
+
+     res.setHeader("Content-Type", "video/mp4")
+
+     readFileC.pipe(res)
+    } catch (error) {
+        console.error(error)
+    }
+})
+
+
 
 module.exports = router;

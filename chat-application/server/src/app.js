@@ -1,5 +1,4 @@
 import express from "express";
-import next from "next";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -17,7 +16,7 @@ dotenv.config();
   app.use(cookieParser());
   app.use(express.json());
   app.use(cors({
-    origin: "https://track-my-activities.vercel.app",
+    origin: "http://localhost:3000",
     credentials: true
   }));
 
