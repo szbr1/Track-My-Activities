@@ -1,5 +1,6 @@
 import express from "express"
-import User from "../controllers/user.model.js";
+import { TokenCheck } from "../config/jwt.js";
+import User from "../models/user.model.js";
 
 const route = express.Router()
 
@@ -16,10 +17,12 @@ route.post("/new-user", async (req,res)=>{
             return res.status(401).json({message: "Network issues refresh the website."})
         }
 
-        await User.create({
+        const newUser = await User.create({
             userId,
             username
         })
+
+        TokenCheck(res, newUser._id)
 
         return res.status(200).json({message: "Successfully Your Account Created."})
 
@@ -38,7 +41,9 @@ route.post("/user-verify", async(req,res)=>{
       if(!userVerify){
         return res.status(401).json({message: "You have 4 more attempts"})
       }
-
+      
+      TokenCheck(res ,userVerify._id)
+      
       res.status(200).json({message: "Welcome Back"})
     } catch (error) {
       console.error(error)  

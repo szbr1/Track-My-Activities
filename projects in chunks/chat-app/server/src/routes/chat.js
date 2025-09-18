@@ -1,6 +1,6 @@
 import express, { response } from "express"
-import User from "../controllers/user.model.js";
-import Message from "../controllers/chat.model.js";
+import Message from "../models/chat.model.js";
+
 
 const route = express.Router()
 

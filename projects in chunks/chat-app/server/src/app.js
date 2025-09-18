@@ -4,8 +4,11 @@ import userRoute from "./routes/user.js"
 import roomRoute from "./routes/roomId.js" 
 import MessageRoute from "./routes/chat.js" 
 import { connectDB } from "./config/db.js"
+import cors from "cors"
+
 
 const app = express()
+app.use(cors({origin: "http://localhost:5173", credentials: true}))
 app.use(express.json())
 
 
