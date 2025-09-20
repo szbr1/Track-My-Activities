@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 
 const roomSchema = new mongoose.Schema({
     roomId: {type: String , required: true, unique: true },
-    roomUsers: {type: Array, }
+    roomUsers: [{type: mongoose.Types.ObjectId, ref:"users"}]
 })
 
 

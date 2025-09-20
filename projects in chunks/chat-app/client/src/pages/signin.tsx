@@ -1,22 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppManager } from "../store/useAppManager";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 function SignIn() {
   const [formData, setFormData] = useState({userId: "" });
   const navigate = useNavigate()
-  const { signin } = useAppManager();
+  const { signin ,signedIn} = useAppManager();
 
-  const handleChange = (e: FormEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const SubmitForm = (e) => {
+  const SubmitForm = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
-    signin(formData, navigate);
+    signin(formData);
     
   };
+
+  console.log(signedIn)
+   const [cookies] = useCookies(["token"])
+       useEffect(()=>{
+         if(cookies.token){
+           navigate("/")
+         }
+       },[])
 
   return (
     <div className="min-h-screen w-full  flex justify-center items-center">

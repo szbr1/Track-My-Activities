@@ -9,8 +9,6 @@ route.post("/new-user", async (req,res)=>{
     try {
         const {userId, username} = req.body;
         
-        console.log({id: userId, name: username})
-        
         const userIdAlreadyExist = await User.findOne({userId: userId})
 
         if(userIdAlreadyExist){

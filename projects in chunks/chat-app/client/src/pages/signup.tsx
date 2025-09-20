@@ -5,18 +5,21 @@ import { useNavigate } from "react-router-dom";
 function SignUp() {
 
     const [formData , setFormData] = useState({username: "", userId: ""})
-    const {signup} = useAppManager()
+    const {signup, signedIn} = useAppManager()
     const navigate = useNavigate()
-     const handleChange = (e:FormEvent<HTMLInputElement>)=>{
+     const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
           setFormData({...formData, [e.target.name]: e.target.value})
      }
 
-     const SubmitForm = (e)=>{
+     const SubmitForm = (e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
         console.log(formData)
-        signup(formData, navigate)
+        signup(formData)
      }
-    
+    if(signedIn){
+      navigate("/room")
+      return;
+    }
   return (
     <div className="min-h-screen w-full  flex justify-center items-center">
       <div className=" lg:w-[35vw] w-full rounded-md border border-gray-200 shadow-md mx-3 p-3 ">

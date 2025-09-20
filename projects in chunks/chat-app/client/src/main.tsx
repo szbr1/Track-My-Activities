@@ -2,7 +2,6 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./pages/home.tsx";
 import SignIn from "./pages/signin.tsx";
 import SignUp from "./pages/signup.tsx";
 import Room from "./pages/room.tsx";
@@ -19,7 +18,7 @@ createRoot(document.getElementById("root")!).render(
       <Toaster position="top-center" reverseOrder={false} />
     <Routes>
       
-        <Route element={<ProtectedRoute> <Home /> </ProtectedRoute>} path="/Home" /> 
+        
       
       <Route element={<SignIn />} path="/signin" />
       <Route element={<SignUp />} path="/signup" />

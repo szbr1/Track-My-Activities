@@ -1,13 +1,22 @@
 import express, { response } from "express"
 import Message from "../models/chat.model.js";
+import { RoomMiddleware, verifyToken } from "../config/jwt.js";
 
 
 const route = express.Router()
 
 
-route.post("/send-message", async(req,res)=>{
+route.post("/send-message/:id",verifyToken,RoomMiddleware, async(req,res)=>{
     try {
-        const {message, senderName, recieverName} = req.body;
+        const {message} = req.body;
+
+        const senderName = req.userId
+        const {id: recieverName} = req.params
+
+        console.log("----------------")
+        console.log(senderName, "----", recieverName)
+        console.log("----------------")
+        
           if(!message || !senderName || !recieverName){
             return res.status(401).json({message: "You Can't Send Message"})
           }
@@ -27,10 +36,13 @@ route.post("/send-message", async(req,res)=>{
 })
 
 
-route.get("/fetch-messages", async(req,res)=>{
+route.get("/fetch-messages/:id",verifyToken, RoomMiddleware, async(req,res)=>{
     try {
-       const {senderName, recieverName} = req.body;
-
+        const senderName = req.userId
+        const {id: recieverName} = req.params
+         
+        
+        
       const messages = await Message.find({$or: [{senderName, recieverName},{recieverName, senderName}]})
 
       return res.status(200).json({message: messages})
